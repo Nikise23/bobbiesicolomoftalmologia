@@ -1,6 +1,7 @@
 import logo from './logo.png';
 import nosotros from './nosotros.png';
-import fachada from './fachada.jpg';
+import fachada from './fachada.webp';
+import fachadaFallback from './fachada.jpg';
 import favicon from './favicon.png';
 import drColom from './profesionales/dr-colom.jpg';
 import draBobbiesi from './profesionales/dra-bobbiesi.jpg';
@@ -11,6 +12,7 @@ export {
   logo,
   nosotros,
   fachada,
+  fachadaFallback,
   favicon,
   drColom,
   draBobbiesi,

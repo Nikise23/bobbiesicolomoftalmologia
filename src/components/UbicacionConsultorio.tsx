@@ -1,4 +1,5 @@
-import fachada from '@/assets/images/fachada.jpg';
+import fachada from '@/assets/images/fachada.webp';
+import fachadaFallback from '@/assets/images/fachada.jpg';
 import { site, mapsUrl } from '@/config/site';
 import { onImageError } from '@/utils/imagen';
 import { MapPinIcon } from '@/components/icons';
@@ -15,15 +16,20 @@ export function UbicacionConsultorio({ className = '' }: UbicacionProps) {
     <div
       className={`overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-lg ${className}`}
     >
-      <img
-        src={fachada}
-        alt={`Fachada del consultorio ${site.nombreCorto} — ${site.direccion}`}
-        width={720}
-        height={480}
-        loading="lazy"
-        className="aspect-[16/10] w-full object-cover"
-        onError={onImageError}
-      />
+      <picture>
+        <source srcSet={fachada} type="image/webp" />
+        <img
+          src={fachadaFallback}
+          alt={`Fachada del consultorio ${site.nombreCorto} — ${site.direccion}`}
+          width={800}
+          height={500}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          className="aspect-[16/10] w-full object-cover"
+          onError={onImageError}
+        />
+      </picture>
 
       {site.mapsEmbedUrl ? (
         <iframe
