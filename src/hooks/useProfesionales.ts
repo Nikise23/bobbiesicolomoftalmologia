@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { fotosProfesionales } from '@/assets/images';
+import profesionalPlaceholder from '@/assets/images/profesional-placeholder.svg';
 import { getMedicos } from '@/services/publicApi';
 import profesionalesLocal from '@/data/profesionales.json';
 
@@ -23,14 +25,14 @@ export interface Profesional {
 
 const overrides = profesionalesLocal as ProfesionalOverride[];
 
-const FOTO_PLACEHOLDER = '/profesionales/placeholder.svg';
+const FOTO_PLACEHOLDER = profesionalPlaceholder;
 
 function construirDesdeOverride(o: ProfesionalOverride, desdeApi: boolean): Profesional {
   return {
     nombre: o.medicoNombre,
     especialidad: o.especialidad ?? 'Oftalmología',
     resena: o.resena ?? '',
-    foto: o.foto ?? FOTO_PLACEHOLDER,
+    foto: fotosProfesionales[o.medicoNombre] ?? o.foto ?? FOTO_PLACEHOLDER,
     orden: o.orden ?? 999,
     desdeApi,
   };

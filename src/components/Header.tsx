@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import logo from '@/assets/images/logo.png';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { site } from '@/config/site';
 import { MenuIcon, CloseIcon } from '@/components/icons';
@@ -39,7 +40,7 @@ export function Header() {
       <div className="page-shell flex h-16 items-center justify-between gap-4 lg:h-20">
         <Link to="/" className="flex items-center gap-3" aria-label={`Inicio · ${site.nombre}`}>
           <img
-            src="/logo.png"
+            src={logo}
             alt=""
             width={1024}
             height={682}

@@ -1,3 +1,4 @@
+import fachada from '@/assets/images/fachada.jpg';
 import { site, mapsUrl } from '@/config/site';
 import { onImageError } from '@/utils/imagen';
 import { MapPinIcon } from '@/components/icons';
@@ -15,7 +16,7 @@ export function UbicacionConsultorio({ className = '' }: UbicacionProps) {
       className={`overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-lg ${className}`}
     >
       <img
-        src="/fachada.jpg"
+        src={fachada}
         alt={`Fachada del consultorio ${site.nombreCorto} — ${site.direccion}`}
         width={720}
         height={480}

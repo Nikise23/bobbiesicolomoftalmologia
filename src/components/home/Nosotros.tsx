@@ -1,3 +1,4 @@
+import nosotrosImg from '@/assets/images/nosotros.png';
 import { nosotros } from '@/data/nosotros';
 import { site } from '@/config/site';
 import { ScrollReveal } from '@/components/ScrollReveal';
@@ -24,7 +25,7 @@ export function Nosotros() {
           <div className="flex justify-center lg:justify-end">
             <figure className="w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-lg lg:max-w-md">
               <img
-                src="/nosotros.png"
+                src={nosotrosImg}
                 alt={`Colom y Bobbiesi en la entrada del consultorio oftalmológico, ${site.direccion}`}
                 width={825}
                 height={1024}
