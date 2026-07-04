@@ -29,7 +29,8 @@ export default {
           700: '#6f471f',
           800: '#573818',
         },
-        whatsapp: '#25D366',
+        // Tono acorde al sitio para íconos/enlaces de WhatsApp (ya no verde marca).
+        whatsapp: '#8c5a25',
       },
       fontFamily: {
         display: ['"DM Sans"', 'system-ui', 'sans-serif'],

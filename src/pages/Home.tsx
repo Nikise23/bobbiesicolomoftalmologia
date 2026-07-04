@@ -4,6 +4,7 @@ import { Hero } from '@/components/home/Hero';
 import { Nosotros } from '@/components/home/Nosotros';
 import { Profesionales } from '@/components/home/Profesionales';
 import { Especialidades } from '@/components/home/Especialidades';
+import { Coberturas } from '@/components/home/Coberturas';
 
 export function Home() {
   return (
@@ -16,6 +17,7 @@ export function Home() {
       <Hero />
       <Nosotros />
       <Profesionales />
+      <Coberturas />
       <Especialidades />
     </>
   );

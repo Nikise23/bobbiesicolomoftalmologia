@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { DatosPaciente, TipoPaciente } from './tipos';
 import {
+  formatearFechaNacimientoInput,
   validarDni,
   validarCelular,
   validarFechaNacimiento,
@@ -51,7 +52,8 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
   const campo = (
     id: keyof DatosPaciente,
     label: string,
-    props: React.InputHTMLAttributes<HTMLInputElement> = {}
+    props: React.InputHTMLAttributes<HTMLInputElement> = {},
+    formatear?: (valor: string) => string
   ) => (
     <div>
       <label htmlFor={id} className="label-field">
@@ -61,7 +63,10 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
         id={id}
         className="input-field"
         value={datos[id] as string}
-        onChange={(e) => set(id, e.target.value)}
+        onChange={(e) => {
+          const valor = e.target.value;
+          set(id, formatear ? formatear(valor) : valor);
+        }}
         aria-invalid={!!errores[id]}
         aria-describedby={errores[id] ? `${id}-error` : undefined}
         {...props}
@@ -92,10 +97,16 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
           placeholder: '12345678',
           maxLength: 8,
         })}
-        {campo('fechaNacimiento', 'Fecha de nacimiento', {
-          placeholder: 'dd/mm/aaaa',
-          inputMode: 'numeric',
-        })}
+        {campo(
+          'fechaNacimiento',
+          'Fecha de nacimiento',
+          {
+            placeholder: 'dd/mm/aaaa',
+            inputMode: 'numeric',
+            maxLength: 10,
+          },
+          formatearFechaNacimientoInput
+        )}
         {campo('celular', 'Celular', {
           inputMode: 'tel',
           autoComplete: 'tel',

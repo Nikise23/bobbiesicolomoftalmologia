@@ -5,6 +5,14 @@ export const validarDni = (dni: string): boolean => /^\d{7,8}$/.test(dni.trim())
 export const validarCelular = (cel: string): boolean =>
   /^\d{6,15}$/.test(cel.replace(/\D/g, ''));
 
+/** Formatea dígitos a dd/mm/aaaa mientras se escribe (sin pedir las barras). */
+export function formatearFechaNacimientoInput(valor: string): string {
+  const digitos = valor.replace(/\D/g, '').slice(0, 8);
+  if (digitos.length <= 2) return digitos;
+  if (digitos.length <= 4) return `${digitos.slice(0, 2)}/${digitos.slice(2)}`;
+  return `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`;
+}
+
 /** Espera dd/mm/aaaa y valida que sea una fecha real y pasada. */
 export function validarFechaNacimiento(valor: string): boolean {
   const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(valor.trim());

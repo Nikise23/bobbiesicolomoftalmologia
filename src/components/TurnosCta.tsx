@@ -14,7 +14,7 @@ interface TurnosCtaProps {
 /**
  * CTAs de turnos que respetan el feature flag VITE_TURNOS_ONLINE:
  *  - Encendido: "Solicitar turno" → /turnos (wizard) + WhatsApp secundario.
- *  - Apagado: "Solicitar turno" → WhatsApp (verde), sin wizard.
+ *  - Apagado: "Solicitar turno" → WhatsApp (estilo del sitio), sin wizard.
  */
 export function TurnosCta({
   whatsappMensaje,

@@ -135,7 +135,7 @@ export function Footer() {
                   href={whatsappUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-whatsapp hover:brightness-110"
+                  className="flex items-center gap-2 text-accent-600 hover:text-accent-700"
                 >
                   <WhatsAppIcon className="h-4 w-4 shrink-0" />
                   WhatsApp

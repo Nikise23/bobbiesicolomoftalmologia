@@ -41,7 +41,7 @@
   }
 
   .btn-whatsapp {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-whatsapp px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-md transition-colors duration-200 hover:brightness-110 focus-visible:ring-2 focus-visible:ring-white/60;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-accent-500 bg-white px-6 py-3 text-sm font-semibold uppercase tracking-wide text-accent-600 shadow-sm transition-colors duration-200 hover:bg-accent-500/10 focus-visible:ring-2 focus-visible:ring-accent-400;
   }
 
   .section-title {
@@ -78,6 +78,15 @@
 
   .turnos-body {
     @apply p-6 sm:p-8;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
   /* --- Hero: fondo decorativo --- */

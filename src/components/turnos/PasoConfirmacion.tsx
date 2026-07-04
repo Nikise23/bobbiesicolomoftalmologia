@@ -250,7 +250,7 @@ export function PasoConfirmacion({
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 font-semibold text-whatsapp"
+              className="mt-3 inline-flex items-center gap-2 font-semibold text-accent-700 underline"
             >
               <WhatsAppIcon className="h-4 w-4" />
               Coordinar por WhatsApp
