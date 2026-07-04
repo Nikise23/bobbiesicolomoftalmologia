@@ -200,7 +200,7 @@ export function parseApiError(error: unknown): ApiError {
         status,
         message: import.meta.env.DEV
           ? 'Falta o es incorrecta VITE_PUBLIC_API_KEY en .env.local. Guardá el archivo y reiniciá npm run dev.'
-          : 'Error de configuración del servicio de turnos.',
+          : 'Turnos online sin configurar en el sitio (falta la clave de API en Render). Elegí un día y probá igual, o escribinos por WhatsApp.',
         fallbackWhatsapp: true,
       };
     case 403:

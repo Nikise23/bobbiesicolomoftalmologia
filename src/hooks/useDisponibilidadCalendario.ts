@@ -46,14 +46,19 @@ export function useDisponibilidadCalendario(
       setError(null);
       setUsarFallback(false);
 
-      try {
-        const conTurno: string[] = [];
-        const lote = 6;
+      const conTurno: string[] = [];
+      let consultasOk = 0;
+      let consultasAuth = 0;
+      let consultasTotal = 0;
+      let primerErrorAuth: string | null = null;
+      let primerErrorOtro: string | null = null;
+      const lote = 6;
 
+      try {
         for (let i = 0; i < fechasAConsultar.length; i += lote) {
           if (controller.signal.aborted) return;
           const chunk = fechasAConsultar.slice(i, i + lote);
-          const resultados = await Promise.all(
+          const resultados = await Promise.allSettled(
             chunk.map(async (fecha) => {
               const horarios = await getDisponibilidad(
                 medico,
@@ -63,19 +68,51 @@ export function useDisponibilidadCalendario(
               return horarios.length > 0 ? fecha : null;
             })
           );
-          for (const fecha of resultados) {
-            if (fecha) conTurno.push(fecha);
+
+          for (const resultado of resultados) {
+            consultasTotal++;
+            if (resultado.status === 'fulfilled') {
+              consultasOk++;
+              if (resultado.value) conTurno.push(resultado.value);
+            } else {
+              const parsed = parseApiError(resultado.reason);
+              if (parsed.status === 401 || parsed.status === 403) {
+                consultasAuth++;
+                primerErrorAuth ??= parsed.message;
+              } else {
+                primerErrorOtro ??= parsed.message;
+              }
+            }
           }
         }
 
-        if (activo) setDiasConTurno(new Set(conTurno));
-      } catch (err) {
-        if (!activo || controller.signal.aborted) return;
-        const parsed = parseApiError(err);
-        setError(parsed.message);
-        // Si falla la API, dejamos elegir días hábiles y validamos en el paso de horario.
-        setUsarFallback(true);
-        setDiasConTurno(new Set(fechasAConsultar));
+        if (!activo) return;
+
+        if (conTurno.length > 0) {
+          setDiasConTurno(new Set(conTurno));
+          return;
+        }
+
+        // Sin días libres pero la API respondió bien
+        if (consultasOk > 0 && consultasAuth === 0) {
+          setDiasConTurno(new Set());
+          return;
+        }
+
+        // Falló todo por auth (típico: falta VITE_PUBLIC_API_KEY en producción)
+        if (consultasAuth > 0 && consultasAuth === consultasTotal) {
+          setError(primerErrorAuth);
+          setUsarFallback(true);
+          setDiasConTurno(new Set(fechasAConsultar));
+          return;
+        }
+
+        // Otro error de red/servidor: fallback silencioso
+        if (primerErrorOtro) {
+          setError(primerErrorOtro);
+          setUsarFallback(true);
+          setDiasConTurno(new Set(fechasAConsultar));
+        }
       } finally {
         if (activo) setLoading(false);
       }
