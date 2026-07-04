@@ -29,11 +29,36 @@ export function Header() {
   }, [location.pathname, location.hash]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) return;
+
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.overflow = 'hidden';
+
     return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
+
+  function navItemActive(item: NavItem): boolean {
+    if (item.hash) {
+      return location.pathname === '/' && location.hash === item.to.replace('/', '');
+    }
+    return location.pathname === item.to;
+  }
+
+  const navLinkClass = (active: boolean) =>
+    `flex min-h-[44px] items-center text-base font-medium transition-colors ${
+      active ? 'text-accent-600' : 'text-brand-700'
+    }`;
 
   return (
     <header className="sticky top-0 z-40 border-b border-brand-200 bg-brand-50/95 backdrop-blur">
@@ -109,15 +134,20 @@ export function Header() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-t border-brand-200 bg-white lg:hidden"
+          className="fixed inset-x-0 top-16 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-brand-200 bg-white shadow-lg lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menú de navegación"
         >
           <nav className="page-shell flex flex-col py-4" aria-label="Navegación móvil">
-            {navItems.map((item) =>
-              item.hash ? (
+            {navItems.map((item) => {
+              const active = navItemActive(item);
+              return item.hash ? (
                 <a
                   key={item.to}
                   href={item.to}
-                  className="flex min-h-[44px] items-center text-base font-medium text-brand-700"
+                  aria-current={active ? 'page' : undefined}
+                  className={navLinkClass(active)}
                 >
                   {item.label}
                 </a>
@@ -125,12 +155,13 @@ export function Header() {
                 <NavLink
                   key={item.to}
                   to={item.to}
-                  className="flex min-h-[44px] items-center text-base font-medium text-brand-700"
+                  aria-current={active ? 'page' : undefined}
+                  className={navLinkClass(active)}
                 >
                   {item.label}
                 </NavLink>
-              )
-            )}
+              );
+            })}
             <div className="mt-3 border-t border-brand-200 pt-4">
               <TurnosCta />
             </div>
