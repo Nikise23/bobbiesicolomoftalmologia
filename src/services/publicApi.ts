@@ -87,6 +87,19 @@ export interface DisponibilidadResponse {
   total: number;
 }
 
+export interface DiaDisponibilidad {
+  fecha: string;
+  horarios_disponibles: string[];
+  total: number;
+}
+
+export interface DisponibilidadRangoResponse {
+  medico: string;
+  desde: string;
+  hasta: string;
+  dias: DiaDisponibilidad[];
+}
+
 /** Body para reservar turno (POST /turnos). */
 export interface ReservaTurno {
   medico: string;
@@ -134,6 +147,19 @@ export async function getDisponibilidad(
     signal,
   });
   return data.horarios_disponibles ?? [];
+}
+
+export async function getDisponibilidadRango(
+  medico: string,
+  desde: string,
+  hasta: string,
+  signal?: AbortSignal
+): Promise<DiaDisponibilidad[]> {
+  const { data } = await client.get<DisponibilidadRangoResponse>('/disponibilidad-rango', {
+    params: { medico, desde, hasta },
+    signal,
+  });
+  return data.dias ?? [];
 }
 
 export async function crearTurno(body: ReservaTurno): Promise<unknown> {

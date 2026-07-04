@@ -12,7 +12,7 @@ interface CalendarioProps {
   seleccionada: string | null;
   onSelect: (iso: string) => void;
   maxDias?: number;
-  /** Si está seteado, solo habilita días con turnos según GET /disponibilidad. */
+  /** Si está seteado, solo habilita días con turnos según GET /disponibilidad-rango. */
   medico?: string | null;
 }
 

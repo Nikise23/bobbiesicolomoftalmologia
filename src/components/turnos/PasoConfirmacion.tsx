@@ -8,6 +8,7 @@ import {
   type ReservaTurno,
   type TurnoPaciente,
 } from '@/services/publicApi';
+import { descargarTurnoIcs, urlGoogleCalendar } from '@/utils/calendarioTurno';
 import { formatearFechaLarga } from '@/utils/fecha';
 import { whatsappUrl } from '@/config/site';
 import { CheckIcon, WhatsAppIcon } from '@/components/icons';
@@ -93,6 +94,17 @@ export function PasoConfirmacion({
   };
 
   if (exito) {
+    const turnoCalendario = {
+      medico: estado.medico!,
+      fecha: estado.fecha!,
+      hora: estado.hora!,
+      dni: estado.datos.dni.trim(),
+      paciente:
+        estado.tipoPaciente === 'nuevo'
+          ? `${estado.datos.nombre} ${estado.datos.apellido}`.trim()
+          : undefined,
+    };
+
     return (
       <div className="text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent-500/20 text-accent-600">
@@ -102,7 +114,8 @@ export function PasoConfirmacion({
           ¡Turno confirmado!
         </h2>
         <p className="mt-2 text-sm text-brand-500">
-          Te esperamos. Guardá los datos de tu turno.
+          Te esperamos. Guardá el turno en tu calendario o sacá una captura de pantalla para
+          tenerlo a mano.
         </p>
 
         <dl className="mx-auto mt-6 max-w-sm space-y-2 rounded-xl bg-white p-5 text-left text-sm">
@@ -121,6 +134,27 @@ export function PasoConfirmacion({
             <dd className="font-semibold text-brand-700">{estado.hora}</dd>
           </div>
         </dl>
+
+        <div className="mx-auto mt-6 flex max-w-sm flex-col gap-3 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            onClick={() => descargarTurnoIcs(turnoCalendario)}
+            className="btn-primary w-full sm:w-auto"
+          >
+            Descargar turno
+          </button>
+          <a
+            href={urlGoogleCalendar(turnoCalendario)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary w-full sm:w-auto"
+          >
+            Agregar a Google Calendar
+          </a>
+        </div>
+        <p className="mx-auto mt-2 max-w-sm text-xs text-brand-400">
+          El archivo descargado funciona con Google Calendar, Apple Calendar y Outlook.
+        </p>
 
         <div className="mt-6 flex flex-col items-center gap-3">
           <button

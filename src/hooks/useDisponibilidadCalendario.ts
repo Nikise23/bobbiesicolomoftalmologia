@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getDisponibilidad, parseApiError } from '@/services/publicApi';
+import { getDisponibilidadRango, parseApiError } from '@/services/publicApi';
 import { esFechaSeleccionable, toIsoDate, MAX_DIAS } from '@/utils/fecha';
 
 /**
- * Consulta GET /disponibilidad para cada día hábil del mes visible
+ * Consulta GET /disponibilidad-rango para el mes visible
  * y devuelve las fechas con al menos un horario libre para el médico.
  */
 export function useDisponibilidadCalendario(
@@ -17,7 +17,7 @@ export function useDisponibilidadCalendario(
   const [error, setError] = useState<string | null>(null);
   const [usarFallback, setUsarFallback] = useState(false);
 
-  const fechasAConsultar = useMemo(() => {
+  const rango = useMemo(() => {
     const fechas: string[] = [];
     const diasEnMes = new Date(anio, mes + 1, 0).getDate();
     for (let d = 1; d <= diasEnMes; d++) {
@@ -26,11 +26,12 @@ export function useDisponibilidadCalendario(
         fechas.push(toIsoDate(date));
       }
     }
-    return fechas;
+    if (fechas.length === 0) return null;
+    return { desde: fechas[0], hasta: fechas[fechas.length - 1], fechas };
   }, [anio, mes, maxDias]);
 
   useEffect(() => {
-    if (!medico || fechasAConsultar.length === 0) {
+    if (!medico || !rango) {
       setDiasConTurno(new Set());
       setLoading(false);
       setError(null);
@@ -46,72 +47,32 @@ export function useDisponibilidadCalendario(
       setError(null);
       setUsarFallback(false);
 
-      const conTurno: string[] = [];
-      let consultasOk = 0;
-      let consultasAuth = 0;
-      let consultasTotal = 0;
-      let primerErrorAuth: string | null = null;
-      let primerErrorOtro: string | null = null;
-      const lote = 6;
-
       try {
-        for (let i = 0; i < fechasAConsultar.length; i += lote) {
-          if (controller.signal.aborted) return;
-          const chunk = fechasAConsultar.slice(i, i + lote);
-          const resultados = await Promise.allSettled(
-            chunk.map(async (fecha) => {
-              const horarios = await getDisponibilidad(
-                medico,
-                fecha,
-                controller.signal
-              );
-              return horarios.length > 0 ? fecha : null;
-            })
-          );
-
-          for (const resultado of resultados) {
-            consultasTotal++;
-            if (resultado.status === 'fulfilled') {
-              consultasOk++;
-              if (resultado.value) conTurno.push(resultado.value);
-            } else {
-              const parsed = parseApiError(resultado.reason);
-              if (parsed.status === 401 || parsed.status === 403) {
-                consultasAuth++;
-                primerErrorAuth ??= parsed.message;
-              } else {
-                primerErrorOtro ??= parsed.message;
-              }
-            }
-          }
-        }
+        const dias = await getDisponibilidadRango(
+          medico,
+          rango.desde,
+          rango.hasta,
+          controller.signal
+        );
 
         if (!activo) return;
 
-        if (conTurno.length > 0) {
-          setDiasConTurno(new Set(conTurno));
-          return;
-        }
+        const conTurno = dias
+          .filter((d) => d.horarios_disponibles.length > 0)
+          .map((d) => d.fecha);
 
-        // Sin días libres pero la API respondió bien
-        if (consultasOk > 0 && consultasAuth === 0) {
+        setDiasConTurno(new Set(conTurno));
+      } catch (err) {
+        if (!activo || controller.signal.aborted) return;
+
+        const parsed = parseApiError(err);
+        setError(parsed.message);
+
+        if (parsed.status === 401 || parsed.status === 403 || parsed.fallbackWhatsapp) {
+          setUsarFallback(true);
+          setDiasConTurno(new Set(rango.fechas));
+        } else {
           setDiasConTurno(new Set());
-          return;
-        }
-
-        // Falló todo por auth (típico: falta VITE_PUBLIC_API_KEY en producción)
-        if (consultasAuth > 0 && consultasAuth === consultasTotal) {
-          setError(primerErrorAuth);
-          setUsarFallback(true);
-          setDiasConTurno(new Set(fechasAConsultar));
-          return;
-        }
-
-        // Otro error de red/servidor: fallback silencioso
-        if (primerErrorOtro) {
-          setError(primerErrorOtro);
-          setUsarFallback(true);
-          setDiasConTurno(new Set(fechasAConsultar));
         }
       } finally {
         if (activo) setLoading(false);
@@ -122,7 +83,7 @@ export function useDisponibilidadCalendario(
       activo = false;
       controller.abort();
     };
-  }, [medico, fechasAConsultar]);
+  }, [medico, rango]);
 
   return { diasConTurno, loading, error, usarFallback };
 }
