@@ -1,0 +1,18 @@
+[
+  {
+    "medicoNombre": "Dr. Francisco Colom",
+    "especialidad": "Oftalmología general y cirugía de cataratas",
+    "resena": "Profesional con amplia trayectoria en oftalmología y en cirugías de alta complejidad, como la de cataratas. A sus años de experiencia en el cuidado ocular suma un trato cálido y personalizado, realizando cada procedimiento con precisión y profesionalismo.",
+    "foto": "/profesionales/dr-colom.jpg",
+    "orden": 1,
+    "visible": true
+  },
+  {
+    "medicoNombre": "Dra. Marianela Bobbiesi",
+    "especialidad": "Oftalmopediatría",
+    "resena": "Especialista en oftalmopediatría, es la encargada de acompañar a los más pequeños en su camino hacia una mejor visión y calidad de vida, con un enfoque cuidadoso y cercano para cada niño y su familia.",
+    "foto": "/profesionales/dra-bobbiesi.jpg",
+    "orden": 2,
+    "visible": true
+  }
+]
