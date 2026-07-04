@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import logo from '@/assets/images/logo.png';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { site } from '@/config/site';
@@ -31,20 +32,12 @@ export function Header() {
   useEffect(() => {
     if (!open) return;
 
-    const scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
+    const html = document.documentElement;
+    const prevOverflow = html.style.overflow;
+    html.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
-      window.scrollTo(0, scrollY);
+      html.style.overflow = prevOverflow;
     };
   }, [open]);
 
@@ -61,7 +54,7 @@ export function Header() {
     }`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-brand-200 bg-brand-50/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-brand-200 bg-brand-50/95 backdrop-blur">
       <div className="page-shell flex h-16 items-center justify-between gap-4 lg:h-20">
         <Link to="/" className="flex items-center gap-3" aria-label={`Inicio · ${site.nombre}`}>
           <img
@@ -131,51 +124,64 @@ export function Header() {
         </button>
       </div>
 
-      {open && (
-        <div
-          id="mobile-menu"
-          className="fixed inset-x-0 top-16 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-brand-200 bg-white shadow-lg lg:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menú de navegación"
-        >
-          <nav className="page-shell flex flex-col py-4" aria-label="Navegación móvil">
-            {navItems.map((item) => {
-              const active = navItemActive(item);
-              return item.hash ? (
-                <a
-                  key={item.to}
-                  href={item.to}
-                  aria-current={active ? 'page' : undefined}
-                  className={navLinkClass(active)}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  aria-current={active ? 'page' : undefined}
-                  className={navLinkClass(active)}
-                >
-                  {item.label}
-                </NavLink>
-              );
-            })}
-            <div className="mt-3 border-t border-brand-200 pt-4">
-              <TurnosCta />
-            </div>
-            <a
-              href={site.sistemaUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 flex min-h-[44px] items-center text-sm font-medium text-brand-400"
+      {open &&
+        createPortal(
+          <>
+            <button
+              type="button"
+              aria-label="Cerrar menú"
+              className="fixed inset-0 top-16 z-40 bg-brand-900/20 lg:hidden"
+              onClick={() => setOpen(false)}
+            />
+            <div
+              id="mobile-menu"
+              className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto overscroll-contain border-t border-brand-200 bg-white shadow-lg lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menú de navegación"
             >
-              Acceso personal
-            </a>
-          </nav>
-        </div>
-      )}
+              <nav className="page-shell flex flex-col py-4" aria-label="Navegación móvil">
+                {navItems.map((item) => {
+                  const active = navItemActive(item);
+                  return item.hash ? (
+                    <a
+                      key={item.to}
+                      href={item.to}
+                      aria-current={active ? 'page' : undefined}
+                      className={navLinkClass(active)}
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      aria-current={active ? 'page' : undefined}
+                      className={navLinkClass(active)}
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.label}
+                    </NavLink>
+                  );
+                })}
+                <div className="mt-3 border-t border-brand-200 pt-4">
+                  <TurnosCta />
+                </div>
+                <a
+                  href={site.sistemaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 flex min-h-[44px] items-center text-sm font-medium text-brand-400"
+                  onClick={() => setOpen(false)}
+                >
+                  Acceso personal
+                </a>
+              </nav>
+            </div>
+          </>,
+          document.body
+        )}
     </header>
   );
 }
