@@ -1,6 +1,9 @@
 /** Utilidades de fecha para el wizard de turnos. */
 
-export const MAX_DIAS = 60;
+import { site } from '@/config/site';
+
+/** Debe coincidir con PUBLIC_API_MAX_DIAS del backend. */
+export const MAX_DIAS = site.turnosMaxDias;
 
 const MESES = [
   'enero',

@@ -22,8 +22,15 @@ import { API_URL, PUBLIC_API_KEY, USE_API_PROXY } from '@/config/site';
 const PROXY_BASE = '/api/turnos';
 /** Base directa de la API pública. */
 const DIRECT_BASE = `${API_URL}/api/public/v1`;
+/** En dev, Vite reenvía /api/public/v1 → backend (ver vite.config.ts). */
+const DEV_PROXY_BASE = '/api/public/v1';
 
-const baseURL = USE_API_PROXY ? PROXY_BASE : DIRECT_BASE;
+const directBaseURL = import.meta.env.DEV ? DEV_PROXY_BASE : DIRECT_BASE;
+const baseURL = USE_API_PROXY ? PROXY_BASE : directBaseURL;
+
+/** true si la API key la inyecta el proxy de Vite (dev) o el proxy de producción. */
+const usaProxyServerSide =
+  USE_API_PROXY || (import.meta.env.DEV && !USE_API_PROXY);
 
 const client: AxiosInstance = axios.create({
   baseURL,
@@ -33,10 +40,10 @@ const client: AxiosInstance = axios.create({
   },
 });
 
-// Interceptor: agrega X-API-Key en modo directo. En modo proxy la clave la
-// inyecta el proxy server-side, así que acá no se toca.
+// Interceptor: agrega X-API-Key solo si el cliente pega directo al backend
+// (producción sin proxy). En dev, Vite inyecta la key en el proxy local.
 client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (!USE_API_PROXY && PUBLIC_API_KEY) {
+  if (!usaProxyServerSide && PUBLIC_API_KEY) {
     config.headers.set('X-API-Key', PUBLIC_API_KEY);
   }
   return config;
@@ -191,13 +198,17 @@ export function parseApiError(error: unknown): ApiError {
     case 401:
       return {
         status,
-        message: 'Error de configuración del servicio de turnos.',
+        message: import.meta.env.DEV
+          ? 'Falta o es incorrecta VITE_PUBLIC_API_KEY en .env.local. Guardá el archivo y reiniciá npm run dev.'
+          : 'Error de configuración del servicio de turnos.',
         fallbackWhatsapp: true,
       };
     case 403:
       return {
         status,
-        message: 'Origen no autorizado (revisar CORS en backend).',
+        message: import.meta.env.DEV
+          ? 'Origen no autorizado. Usá npm run dev (proxy local) o agregá http://localhost:5173 en PUBLIC_API_CORS_ORIGIN del backend.'
+          : 'Origen no autorizado (revisar CORS en backend).',
         fallbackWhatsapp: true,
       };
     case 409:

@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly VITE_SITE_URL?: string;
   readonly VITE_API_URL?: string;
   readonly VITE_PUBLIC_API_KEY?: string;
+  readonly VITE_PUBLIC_API_MAX_DIAS?: string;
   readonly VITE_USE_API_PROXY?: string;
   readonly VITE_SISTEMA_URL?: string;
   readonly VITE_TURNOS_ONLINE?: string;

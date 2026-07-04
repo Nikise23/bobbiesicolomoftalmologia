@@ -20,12 +20,20 @@ interface PasoConfirmacionProps {
 }
 
 function construirBody(estado: EstadoTurno): ReservaTurno {
-  const { datos } = estado;
-  return {
+  const { datos, tipoPaciente } = estado;
+  const base: ReservaTurno = {
     medico: estado.medico!,
     fecha: estado.fecha!,
     hora: estado.hora!,
     dni: datos.dni.trim(),
+  };
+
+  if (tipoPaciente === 'habitual') {
+    return base;
+  }
+
+  return {
+    ...base,
     nombre: datos.nombre.trim(),
     apellido: datos.apellido.trim(),
     celular: datos.celular.replace(/\D/g, ''),
@@ -57,7 +65,15 @@ export function PasoConfirmacion({
       return true;
     } catch (err) {
       const parsed = parseApiError(err);
-      setError(parsed.message);
+      let msg = parsed.message;
+      if (
+        estado.tipoPaciente === 'habitual' &&
+        (parsed.status === 400 || msg.toLowerCase().includes('dni'))
+      ) {
+        msg =
+          'No encontramos ese DNI en el sistema. Volvé atrás, elegí "Soy paciente nuevo" y completá tus datos.';
+      }
+      setError(msg);
       setFallbackWa(parsed.fallbackWhatsapp);
       onEstadoEnvio(false);
       return false;
@@ -171,19 +187,25 @@ export function PasoConfirmacion({
         <div className="flex justify-between gap-4 border-t border-brand-100 pt-3">
           <dt className="text-brand-400">Paciente</dt>
           <dd className="font-semibold text-brand-700">
-            {estado.datos.nombre} {estado.datos.apellido}
+            {estado.tipoPaciente === 'habitual'
+              ? `Paciente habitual · DNI ${estado.datos.dni}`
+              : `${estado.datos.nombre} ${estado.datos.apellido}`}
           </dd>
         </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-brand-400">DNI</dt>
-          <dd className="font-semibold text-brand-700">{estado.datos.dni}</dd>
-        </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-brand-400">Obra social</dt>
-          <dd className="font-semibold text-brand-700">
-            {estado.datos.obraSocial} · {estado.datos.numeroObraSocial}
-          </dd>
-        </div>
+        {estado.tipoPaciente === 'nuevo' && (
+          <div className="flex justify-between gap-4">
+            <dt className="text-brand-400">DNI</dt>
+            <dd className="font-semibold text-brand-700">{estado.datos.dni}</dd>
+          </div>
+        )}
+        {estado.tipoPaciente === 'nuevo' && (
+          <div className="flex justify-between gap-4">
+            <dt className="text-brand-400">Obra social</dt>
+            <dd className="font-semibold text-brand-700">
+              {estado.datos.obraSocial} · {estado.datos.numeroObraSocial}
+            </dd>
+          </div>
+        )}
       </dl>
 
       {error && (

@@ -46,12 +46,12 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
 
         <div className="grid gap-3 sm:grid-cols-2">
           {profesionales.map((pro) => {
-            const activo = pro.nombre === seleccionado;
+            const activo = pro.medicoApi === seleccionado;
             return (
               <button
-                key={pro.nombre}
+                key={pro.medicoApi}
                 type="button"
-                onClick={() => onSelect(pro.nombre)}
+                onClick={() => onSelect(pro.medicoApi)}
                 aria-pressed={activo}
                 className={[
                   'flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors',

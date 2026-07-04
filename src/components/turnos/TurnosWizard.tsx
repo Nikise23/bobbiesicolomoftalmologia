@@ -1,18 +1,28 @@
 import { useRef, useState } from 'react';
 import { BarraProgreso } from './BarraProgreso';
+import { PasoIdentificacion } from './PasoIdentificacion';
 import { PasoProfesional } from './PasoProfesional';
 import { Calendario } from './Calendario';
 import { PasoHorario } from './PasoHorario';
 import { PasoDatos } from './PasoDatos';
 import { PasoConfirmacion } from './PasoConfirmacion';
-import { datosVacios, PASOS, type DatosPaciente, type EstadoTurno } from './tipos';
+import {
+  datosVacios,
+  etiquetasPasos,
+  pasosPara,
+  type DatosPaciente,
+  type EstadoTurno,
+  type PasoId,
+  type TipoPaciente,
+} from './tipos';
 import { ChevronLeftIcon } from '@/components/icons';
 import { formatearFechaLarga } from '@/utils/fecha';
 
-/** Wizard de 5 pasos que consume la API pública de turnos. */
+/** Wizard de reserva que consume la API pública de turnos. */
 export function TurnosWizard() {
-  const [paso, setPaso] = useState(1);
+  const [pasoIndex, setPasoIndex] = useState(0);
   const [estado, setEstado] = useState<EstadoTurno>({
+    tipoPaciente: null,
     medico: null,
     fecha: null,
     hora: null,
@@ -22,29 +32,39 @@ export function TurnosWizard() {
   const [finalizado, setFinalizado] = useState(false);
 
   const validarDatosRef = useRef<() => boolean>(() => true);
+  const validarIdentificacionRef = useRef<() => boolean>(() => true);
   const enviarRef = useRef<() => Promise<boolean>>(async () => true);
 
-  const irAtras = () => setPaso((p) => Math.max(1, p - 1));
+  const pasos = pasosPara(estado.tipoPaciente);
+  const pasoId: PasoId = pasos[pasoIndex] ?? 'identificacion';
+  const pasoNumero = pasoIndex + 1;
+
+  const irAtras = () => setPasoIndex((i) => Math.max(0, i - 1));
 
   const irAdelante = async () => {
-    if (paso === 4) {
+    if (pasoId === 'identificacion') {
+      if (!validarIdentificacionRef.current()) return;
+    }
+    if (pasoId === 'datos') {
       if (!validarDatosRef.current()) return;
     }
-    if (paso === 5) {
+    if (pasoId === 'confirmacion') {
       const ok = await enviarRef.current();
       if (ok) setFinalizado(true);
       return;
     }
-    setPaso((p) => Math.min(PASOS.length, p + 1));
+    setPasoIndex((i) => Math.min(pasos.length - 1, i + 1));
   };
 
   const puedeAvanzar = () => {
-    switch (paso) {
-      case 1:
+    switch (pasoId) {
+      case 'identificacion':
+        return !!estado.tipoPaciente;
+      case 'profesional':
         return !!estado.medico;
-      case 2:
+      case 'fecha':
         return !!estado.fecha;
-      case 3:
+      case 'horario':
         return !!estado.hora;
       default:
         return true;
@@ -53,14 +73,46 @@ export function TurnosWizard() {
 
   const setDatos = (datos: DatosPaciente) => setEstado((s) => ({ ...s, datos }));
 
+  const setTipoPaciente = (tipo: TipoPaciente) => {
+    setEstado((s) => ({
+      ...s,
+      tipoPaciente: tipo,
+      datos:
+        tipo === 'habitual'
+          ? { ...datosVacios, dni: s.datos.dni }
+          : { ...datosVacios },
+    }));
+  };
+
+  const irAPaso = (numero: number) => {
+    if (finalizado) return;
+    setPasoIndex(Math.max(0, numero - 1));
+  };
+
   return (
     <div className="turnos-panel">
       <div className="border-b border-brand-200 p-6 sm:px-8">
-        <BarraProgreso actual={paso} onIr={(p) => !finalizado && setPaso(p)} />
+        <BarraProgreso
+          pasos={etiquetasPasos(estado.tipoPaciente)}
+          actual={pasoNumero}
+          onIr={irAPaso}
+        />
       </div>
 
       <div className="turnos-body">
-        {paso === 1 && (
+        {pasoId === 'identificacion' && (
+          <PasoIdentificacion
+            tipo={estado.tipoPaciente}
+            dni={estado.datos.dni}
+            onTipoChange={setTipoPaciente}
+            onDniChange={(dni) => setDatos({ ...estado.datos, dni })}
+            registrarValidacion={(fn) => {
+              validarIdentificacionRef.current = fn;
+            }}
+          />
+        )}
+
+        {pasoId === 'profesional' && (
           <PasoProfesional
             seleccionado={estado.medico}
             onSelect={(medico) =>
@@ -69,7 +121,7 @@ export function TurnosWizard() {
           />
         )}
 
-        {paso === 2 && (
+        {pasoId === 'fecha' && (
           <div>
             <h2 className="font-display text-xl font-bold text-brand-700">
               Elegí una fecha
@@ -82,13 +134,14 @@ export function TurnosWizard() {
             <div className="mt-6 max-w-md">
               <Calendario
                 seleccionada={estado.fecha}
+                medico={estado.medico}
                 onSelect={(fecha) => setEstado((s) => ({ ...s, fecha, hora: null }))}
               />
             </div>
           </div>
         )}
 
-        {paso === 3 && estado.medico && estado.fecha && (
+        {pasoId === 'horario' && estado.medico && estado.fecha && (
           <PasoHorario
             medico={estado.medico}
             fecha={estado.fecha}
@@ -97,8 +150,9 @@ export function TurnosWizard() {
           />
         )}
 
-        {paso === 4 && (
+        {pasoId === 'datos' && estado.tipoPaciente === 'nuevo' && (
           <PasoDatos
+            tipoPaciente="nuevo"
             datos={estado.datos}
             onChange={setDatos}
             registrarValidacion={(fn) => {
@@ -107,7 +161,7 @@ export function TurnosWizard() {
           />
         )}
 
-        {paso === 5 && (
+        {pasoId === 'confirmacion' && (
           <PasoConfirmacion
             estado={estado}
             registrarEnvio={(fn) => {
@@ -119,7 +173,7 @@ export function TurnosWizard() {
 
         {!finalizado && (
           <div className="mt-8 flex items-center justify-between gap-3">
-            {paso > 1 ? (
+            {pasoIndex > 0 ? (
               <button
                 type="button"
                 onClick={irAtras}
@@ -139,7 +193,7 @@ export function TurnosWizard() {
               disabled={!puedeAvanzar() || enviando}
               className="btn-primary"
             >
-              {paso === 5
+              {pasoId === 'confirmacion'
                 ? enviando
                   ? 'Confirmando…'
                   : 'Confirmar turno'

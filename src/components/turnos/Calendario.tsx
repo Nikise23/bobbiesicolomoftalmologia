@@ -5,12 +5,15 @@ import {
   tituloMes,
   MAX_DIAS,
 } from '@/utils/fecha';
+import { useDisponibilidadCalendario } from '@/hooks/useDisponibilidadCalendario';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons';
 
 interface CalendarioProps {
   seleccionada: string | null;
   onSelect: (iso: string) => void;
   maxDias?: number;
+  /** Si está seteado, solo habilita días con turnos según GET /disponibilidad. */
+  medico?: string | null;
 }
 
 const NOMBRES_DIA = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
@@ -20,6 +23,7 @@ export function Calendario({
   seleccionada,
   onSelect,
   maxDias = MAX_DIAS,
+  medico = null,
 }: CalendarioProps) {
   const hoy = useMemo(() => {
     const d = new Date();
@@ -28,6 +32,20 @@ export function Calendario({
   }, []);
 
   const [cursor, setCursor] = useState(() => new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+
+  const { diasConTurno, loading, error, usarFallback } = useDisponibilidadCalendario(
+    medico,
+    cursor.getFullYear(),
+    cursor.getMonth(),
+    maxDias
+  );
+
+  function diaSeleccionable(dia: Date): boolean {
+    if (!esFechaSeleccionable(dia, maxDias)) return false;
+    if (!medico || usarFallback) return true;
+    if (loading) return false;
+    return diasConTurno.has(toIsoDate(dia));
+  }
 
   const limite = useMemo(() => {
     const d = new Date(hoy);
@@ -95,7 +113,7 @@ export function Calendario({
         {celdas.map((dia, i) => {
           if (!dia) return <span key={`empty-${i}`} />;
           const iso = toIsoDate(dia);
-          const seleccionable = esFechaSeleccionable(dia, maxDias);
+          const seleccionable = diaSeleccionable(dia);
           const activa = iso === seleccionada;
           return (
             <button
@@ -119,8 +137,26 @@ export function Calendario({
         })}
       </div>
 
+      {medico && loading && (
+        <p className="mt-4 text-xs text-brand-500">Consultando agenda del profesional…</p>
+      )}
+
+      {error && (
+        <div className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">
+          {error}
+          {usarFallback && (
+            <span className="mt-1 block text-red-600/90">
+              Mientras tanto podés elegir un día hábil; los horarios se confirman en el
+              siguiente paso.
+            </span>
+          )}
+        </div>
+      )}
+
       <p className="mt-4 text-xs text-brand-400">
-        Atendemos de lunes a sábado. Podés reservar hasta {maxDias} días a futuro.
+        {medico && !usarFallback && !loading
+          ? 'Solo podés elegir días con turnos disponibles según la agenda del consultorio.'
+          : `Podés reservar hasta ${maxDias} días a futuro (domingos cerrados).`}
       </p>
     </div>
   );

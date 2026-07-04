@@ -1,7 +1,8 @@
-import { PASOS } from './tipos';
 import { CheckIcon } from '@/components/icons';
 
 interface BarraProgresoProps {
+  /** Etiquetas de los pasos visibles. */
+  pasos: string[];
   /** Paso actual (1-indexed). */
   actual: number;
   /** Ir a un paso ya completado. */
@@ -9,15 +10,15 @@ interface BarraProgresoProps {
 }
 
 /** Barra de progreso navegable hacia atrás. */
-export function BarraProgreso({ actual, onIr }: BarraProgresoProps) {
+export function BarraProgreso({ pasos, actual, onIr }: BarraProgresoProps) {
   return (
     <ol className="flex items-center gap-1 sm:gap-2" aria-label="Progreso de la reserva">
-      {PASOS.map((label, i) => {
+      {pasos.map((label, i) => {
         const paso = i + 1;
         const completado = paso < actual;
         const activo = paso === actual;
         return (
-          <li key={label} className="flex flex-1 items-center gap-1 sm:gap-2">
+          <li key={`${label}-${i}`} className="flex flex-1 items-center gap-1 sm:gap-2">
             <button
               type="button"
               disabled={paso >= actual}
@@ -41,7 +42,7 @@ export function BarraProgreso({ actual, onIr }: BarraProgresoProps) {
             >
               {label}
             </span>
-            {i < PASOS.length - 1 && (
+            {i < pasos.length - 1 && (
               <span
                 className={`h-0.5 flex-1 rounded ${
                   completado ? 'bg-accent-500' : 'bg-brand-200'

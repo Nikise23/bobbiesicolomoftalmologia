@@ -75,6 +75,12 @@ export const site = {
   /** Feature flags. */
   turnosOnline: toBool(env.VITE_TURNOS_ONLINE, false),
 
+  /** Máximo de días a futuro para reservar (debe coincidir con PUBLIC_API_MAX_DIAS del backend). */
+  turnosMaxDias: (() => {
+    const n = Number(env.VITE_PUBLIC_API_MAX_DIAS);
+    return Number.isFinite(n) && n > 0 ? n : 60;
+  })(),
+
   /** SEO. */
   seo: {
     descripcion:

@@ -5,16 +5,23 @@ import { getMedicos } from '@/services/publicApi';
 import profesionalesLocal from '@/data/profesionales.json';
 
 export interface ProfesionalOverride {
+  /** Nombre para mostrar en la web (ej. Dr. Francisco Colom). */
   medicoNombre: string;
+  /** Nombre exacto en la agenda/API. Si falta, se infiere quitando Dr./Dra. */
+  medicoApi?: string;
   especialidad?: string;
   resena?: string;
   foto?: string;
   orden?: number;
+  /** false = no aparece en la web ni en turnos online. */
   visible?: boolean;
 }
 
 export interface Profesional {
+  /** Nombre para mostrar (Dr./Dra.). */
   nombre: string;
+  /** Nombre exacto para GET /disponibilidad y POST /turnos. */
+  medicoApi: string;
   especialidad: string;
   resena: string;
   foto: string;
@@ -27,9 +34,32 @@ const overrides = profesionalesLocal as ProfesionalOverride[];
 
 const FOTO_PLACEHOLDER = profesionalPlaceholder;
 
-function construirDesdeOverride(o: ProfesionalOverride, desdeApi: boolean): Profesional {
+/** Quita prefijo Dr./Dra. para comparar con la agenda. */
+function normalizarNombre(n: string): string {
+  return n.replace(/^(Dr\.|Dra\.)\s+/i, '').trim().toLowerCase();
+}
+
+function medicoApiDesdeOverride(o: ProfesionalOverride): string {
+  if (o.medicoApi?.trim()) return o.medicoApi.trim();
+  return o.medicoNombre.replace(/^(Dr\.|Dra\.)\s+/i, '').trim();
+}
+
+/** Busca en profesionales.json el médico que corresponde al nombre de la API. */
+function buscarOverridePorApi(nombreApi: string): ProfesionalOverride | undefined {
+  const norm = normalizarNombre(nombreApi);
+  return overrides.find((o) => {
+    if (o.visible === false) return false;
+    return (
+      normalizarNombre(medicoApiDesdeOverride(o)) === norm ||
+      normalizarNombre(o.medicoNombre) === norm
+    );
+  });
+}
+
+function construirProfesional(o: ProfesionalOverride, medicoApi: string, desdeApi: boolean): Profesional {
   return {
     nombre: o.medicoNombre,
+    medicoApi,
     especialidad: o.especialidad ?? 'Oftalmología',
     resena: o.resena ?? '',
     foto: fotosProfesionales[o.medicoNombre] ?? o.foto ?? FOTO_PLACEHOLDER,
@@ -42,14 +72,14 @@ function construirDesdeOverride(o: ProfesionalOverride, desdeApi: boolean): Prof
 function fallbackLocal(): Profesional[] {
   return overrides
     .filter((o) => o.visible !== false)
-    .map((o) => construirDesdeOverride(o, false))
+    .map((o) => construirProfesional(o, medicoApiDesdeOverride(o), false))
     .sort((a, b) => a.orden - b.orden);
 }
 
 /**
- * Mergea la lista de médicos de la API pública con los overrides locales
- * (foto, reseña, especialidad, orden, visible) por nombre exacto.
- * Si la API falla, cae al JSON local completo.
+ * Lista de profesionales para la web y turnos online.
+ * Solo aparecen los definidos en profesionales.json (visible !== false),
+ * mergeados con GET /medicos por nombre de agenda.
  */
 export function useProfesionales() {
   const [profesionales, setProfesionales] = useState<Profesional[]>([]);
@@ -67,18 +97,11 @@ export function useProfesionales() {
         const nombresApi = await getMedicos(controller.signal);
         if (!activo) return;
 
-        const mapOverrides = new Map(
-          overrides.map((o) => [o.medicoNombre.trim(), o])
-        );
-
         const lista = nombresApi
-          .map((nombre) => {
-            const override = mapOverrides.get(nombre.trim());
-            if (override?.visible === false) return null;
-            return construirDesdeOverride(
-              { ...override, medicoNombre: nombre },
-              true
-            );
+          .map((nombreApi) => {
+            const override = buscarOverridePorApi(nombreApi);
+            if (!override) return null;
+            return construirProfesional(override, nombreApi.trim(), true);
           })
           .filter((p): p is Profesional => p !== null)
           .sort((a, b) => a.orden - b.orden);

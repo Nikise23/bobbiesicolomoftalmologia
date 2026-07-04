@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { DatosPaciente } from './tipos';
+import type { DatosPaciente, TipoPaciente } from './tipos';
 import {
   validarDni,
   validarCelular,
@@ -9,9 +9,9 @@ import {
 } from '@/utils/validaciones';
 
 interface PasoDatosProps {
+  tipoPaciente: TipoPaciente;
   datos: DatosPaciente;
   onChange: (datos: DatosPaciente) => void;
-  /** Registra la función de validación en el contenedor para el botón "Continuar". */
   registrarValidacion: (fn: () => boolean) => void;
 }
 
@@ -34,7 +34,7 @@ function validar(datos: DatosPaciente): Errores {
   return e;
 }
 
-/** Paso 4: datos del paciente con validación local. */
+/** Paso datos completos — solo pacientes nuevos. */
 export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosProps) {
   const [errores, setErrores] = useState<Errores>({});
 
@@ -78,7 +78,7 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
     <div>
       <h2 className="font-display text-xl font-bold text-brand-700">Tus datos</h2>
       <p className="mt-1 text-sm text-brand-500">
-        Completá tus datos para confirmar el turno.
+        Como sos paciente nuevo, completá tus datos para darte de alta en el consultorio.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -109,12 +109,6 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
         {campo('obraSocial', 'Obra social', { placeholder: 'OSDE / Particular' })}
         {campo('numeroObraSocial', 'N° de afiliado', { placeholder: '123456' })}
       </div>
-
-      {/*
-        Fase 2 (rate limiting / CAPTCHA): montar acá el widget de Cloudflare
-        Turnstile y pasar el token al POST /turnos cuando el backend lo soporte.
-        Ej: <div className="cf-turnstile" data-sitekey={...} /> y leer el token.
-      */}
 
       <div className="mt-5">
         <label className="flex items-start gap-3 text-sm text-brand-600">
