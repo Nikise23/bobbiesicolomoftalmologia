@@ -1,4 +1,4 @@
-import logo from './logo.png';
+import logo from './logo.webp';
 import nosotros from './nosotros.png';
 import fachada from './fachada.webp';
 import fachadaFallback from './fachada.jpg';

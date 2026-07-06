@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.webp';
 import { site, whatsappUrl, mapsUrl } from '@/config/site';
 import {
   PhoneIcon,
@@ -72,8 +72,8 @@ export function Footer() {
               <img
                 src={logo}
                 alt=""
-                width={1024}
-                height={682}
+                width={512}
+                height={512}
                 className="h-10 w-auto object-contain"
               />
               <span className="font-display text-lg font-bold text-accent-300">

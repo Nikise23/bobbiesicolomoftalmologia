@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.webp';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { site } from '@/config/site';
 import { MenuIcon, CloseIcon } from '@/components/icons';
@@ -60,8 +60,8 @@ export function Header() {
           <img
             src={logo}
             alt=""
-            width={1024}
-            height={682}
+            width={512}
+            height={512}
             className="h-10 w-auto object-contain sm:h-11"
           />
           <span className="flex flex-col leading-tight">
