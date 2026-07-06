@@ -103,6 +103,12 @@ export const InstagramIcon = (props: IconProps) => (
   </svg>
 );
 
+export const StarIcon = (props: IconProps) => (
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+
 export const FacebookIcon = (props: IconProps) => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
     <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12z" />

@@ -13,6 +13,7 @@ interface ImportMetaEnv {
   readonly VITE_CONSULTORIO_DIRECCION?: string;
   readonly VITE_CONSULTORIO_TELEFONO?: string;
   readonly VITE_MAPS_EMBED_URL?: string;
+  readonly VITE_GOOGLE_REVIEWS_URL?: string;
 }
 
 interface ImportMeta {

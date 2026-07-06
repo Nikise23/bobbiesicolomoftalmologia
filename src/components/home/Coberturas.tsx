@@ -8,14 +8,13 @@ import { onImageError } from '@/utils/imagen';
 const COPIAS = 3;
 const VELOCIDAD_AUTO = 0.6;
 const PAUSA_INTERACCION_MS = 4000;
-const UMBRAL_ARRASTRE = 12;
+const UMBRAL_ARRASTRE = 16;
 
 interface Interaccion {
   pointerId: number;
   startX: number;
   scrollLeft: number;
   moved: boolean;
-  cobertura: CoberturaMedica | null;
 }
 
 /** Carrusel de coberturas: auto-scroll, arrastrable y detalle al tocar. */
@@ -26,10 +25,10 @@ export function Coberturas() {
     startX: 0,
     scrollLeft: 0,
     moved: false,
-    cobertura: null,
   });
   const pausaAutoRef = useRef(false);
   const bloqueAnchoRef = useRef(0);
+  const bloquearClickRef = useRef(false);
 
   const [arrastrando, setArrastrando] = useState(false);
   const [seleccionada, setSeleccionada] = useState<CoberturaMedica | null>(null);
@@ -104,29 +103,25 @@ export function Coberturas() {
     scrollerRef.current?.scrollBy({ left: direccion * 320, behavior: 'smooth' });
   };
 
-  const iniciarInteraccion = (
-    e: PointerEvent<HTMLElement>,
-    cobertura: CoberturaMedica | null
-  ) => {
+  const iniciarInteraccion = (e: PointerEvent<HTMLDivElement>) => {
     const el = scrollerRef.current;
     if (!el) return;
 
-    e.stopPropagation();
     pausarAuto();
     setArrastrando(true);
+    bloquearClickRef.current = false;
 
     interaccionRef.current = {
       pointerId: e.pointerId,
       startX: e.clientX,
       scrollLeft: el.scrollLeft,
       moved: false,
-      cobertura,
     };
 
-    e.currentTarget.setPointerCapture(e.pointerId);
+    el.setPointerCapture(e.pointerId);
   };
 
-  const moverInteraccion = (e: PointerEvent<HTMLElement>) => {
+  const moverInteraccion = (e: PointerEvent<HTMLDivElement>) => {
     const s = interaccionRef.current;
     if (s.pointerId !== e.pointerId) return;
 
@@ -134,31 +129,39 @@ export function Coberturas() {
     if (!el) return;
 
     const delta = e.clientX - s.startX;
-    if (Math.abs(delta) > UMBRAL_ARRASTRE) s.moved = true;
+    if (Math.abs(delta) > UMBRAL_ARRASTRE) {
+      s.moved = true;
+      bloquearClickRef.current = true;
+    }
     if (s.moved) el.scrollLeft = s.scrollLeft - delta;
   };
 
-  const finInteraccion = (e: PointerEvent<HTMLElement>) => {
+  const finInteraccion = (e: PointerEvent<HTMLDivElement>) => {
     const s = interaccionRef.current;
     if (s.pointerId !== e.pointerId) return;
 
-    e.currentTarget.releasePointerCapture(e.pointerId);
+    scrollerRef.current?.releasePointerCapture(e.pointerId);
     ajustarLoop();
-
-    if (s.cobertura && !s.moved) {
-      setSeleccionada(s.cobertura);
-    }
 
     interaccionRef.current.pointerId = -1;
     setArrastrando(false);
   };
 
-  const propsInteraccion = (cobertura: CoberturaMedica | null) => ({
-    onPointerDown: (e: PointerEvent<HTMLElement>) => iniciarInteraccion(e, cobertura),
+  const propsInteraccion = {
+    onPointerDown: iniciarInteraccion,
     onPointerMove: moverInteraccion,
     onPointerUp: finInteraccion,
     onPointerCancel: finInteraccion,
-  });
+  };
+
+  const abrirDetalle = (cobertura: CoberturaMedica) => {
+    if (bloquearClickRef.current) {
+      bloquearClickRef.current = false;
+      return;
+    }
+    pausarAuto();
+    setSeleccionada(cobertura);
+  };
 
   return (
     <section id="coberturas" className="scroll-mt-20 bg-white py-16 sm:py-20">
@@ -205,14 +208,14 @@ export function Coberturas() {
             'scrollbar-hide flex touch-pan-x gap-5 overflow-x-auto scroll-smooth px-6 pb-3 pt-1 sm:gap-6 sm:px-12',
             arrastrando ? 'cursor-grabbing select-none' : 'cursor-grab',
           ].join(' ')}
-          {...propsInteraccion(null)}
+          {...propsInteraccion}
         >
           {items.map((cobertura, i) => (
             <button
               key={`${cobertura.nombre}-${i}`}
               type="button"
               aria-label={`Ver planes de ${cobertura.nombre}`}
-              {...propsInteraccion(cobertura)}
+              onClick={() => abrirDetalle(cobertura)}
               className="flex w-52 shrink-0 items-center justify-center rounded-2xl border border-brand-200/80 bg-brand-50 px-6 py-7 transition-colors hover:border-accent-400 hover:bg-white hover:shadow-md sm:w-64 sm:px-8 sm:py-8"
             >
               <img
@@ -229,7 +232,7 @@ export function Coberturas() {
           ))}
         </div>
 
-        <p className="mt-4 text-center text-xs text-brand-400">
+        <p className="mt-4 text-center text-xs font-semibold text-brand-500">
           Se mueve solo · deslizá, arrastrá o tocá un logo para ver planes
         </p>
       </div>

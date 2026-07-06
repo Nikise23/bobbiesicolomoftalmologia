@@ -5,6 +5,7 @@ import { Nosotros } from '@/components/home/Nosotros';
 import { Profesionales } from '@/components/home/Profesionales';
 import { Especialidades } from '@/components/home/Especialidades';
 import { Coberturas } from '@/components/home/Coberturas';
+import { Opiniones } from '@/components/home/Opiniones';
 
 export function Home() {
   return (
@@ -17,6 +18,7 @@ export function Home() {
       <Hero />
       <Nosotros />
       <Profesionales />
+      <Opiniones />
       <Coberturas />
       <Especialidades />
     </>

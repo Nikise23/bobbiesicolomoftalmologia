@@ -43,6 +43,8 @@ export const site = {
   mapsEmbedUrl: env.VITE_MAPS_EMBED_URL ?? '',
   /** Link a Google Maps (direcciones). Se genera desde la dirección si queda vacío. */
   mapsUrl: '',
+  /** Perfil de Google con opiniones (link directo al negocio en Maps). */
+  googleReviewsUrl: env.VITE_GOOGLE_REVIEWS_URL ?? '',
 
   /** Redes sociales (dejar vacío para ocultar). */
   redes: {
@@ -110,5 +112,14 @@ export function whatsappUrl(mensaje?: string): string {
 export function mapsUrl(): string {
   if (site.mapsUrl) return site.mapsUrl;
   const q = encodeURIComponent(`${site.direccion}, ${site.ciudad}, ${site.provincia}`);
+  return `https://www.google.com/maps/search/?api=1&query=${q}`;
+}
+
+/** URL del perfil de Google para ver/dejar opiniones. */
+export function googleReviewsUrl(): string {
+  if (site.googleReviewsUrl) return site.googleReviewsUrl;
+  const q = encodeURIComponent(
+    'Oftalmología Odontología Colom Bobbiesi Muñoz 909 San Miguel'
+  );
   return `https://www.google.com/maps/search/?api=1&query=${q}`;
 }
