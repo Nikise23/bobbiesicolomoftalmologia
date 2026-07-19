@@ -48,12 +48,31 @@ export function useDisponibilidadCalendario(
       setUsarFallback(false);
 
       try {
-        const dias = await getDisponibilidadRango(
-          medico,
-          rango.desde,
-          rango.hasta,
-          controller.signal
-        );
+        let dias;
+        try {
+          dias = await getDisponibilidadRango(
+            medico,
+            rango.desde,
+            rango.hasta,
+            controller.signal
+          );
+        } catch (err) {
+          // El backend usa fecha UTC: de noche (UTC-3) "hoy" ya es pasado para el
+          // servidor y rechaza el rango. Reintentamos desde el día siguiente.
+          const parsed = parseApiError(err);
+          const esFechaPasada =
+            parsed.status === 400 && /pasad/i.test(parsed.message);
+          if (esFechaPasada && rango.fechas.length > 1) {
+            dias = await getDisponibilidadRango(
+              medico,
+              rango.fechas[1],
+              rango.hasta,
+              controller.signal
+            );
+          } else {
+            throw err;
+          }
+        }
 
         if (!activo) return;
 
