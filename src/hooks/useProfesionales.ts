@@ -68,6 +68,19 @@ function construirProfesional(o: ProfesionalOverride, medicoApi: string, desdeAp
   };
 }
 
+/** Profesional habilitado por la API que todavía no tiene perfil local. */
+function construirProfesionalDesdeApi(medicoApi: string): Profesional {
+  return {
+    nombre: medicoApi.trim(),
+    medicoApi: medicoApi.trim(),
+    especialidad: 'Oftalmología',
+    resena: '',
+    foto: FOTO_PLACEHOLDER,
+    orden: 999,
+    desdeApi: true,
+  };
+}
+
 /** Solo overrides visibles (fallback total cuando la API falla). */
 function fallbackLocal(): Profesional[] {
   return overrides
@@ -78,8 +91,8 @@ function fallbackLocal(): Profesional[] {
 
 /**
  * Lista de profesionales para la web y turnos online.
- * Solo aparecen los definidos en profesionales.json (visible !== false),
- * mergeados con GET /medicos por nombre de agenda.
+ * La API define qué médicos son visibles. profesionales.json solo complementa
+ * nombre, foto, especialidad, reseña y orden cuando existe un perfil local.
  */
 export function useProfesionales() {
   const [profesionales, setProfesionales] = useState<Profesional[]>([]);
@@ -100,10 +113,10 @@ export function useProfesionales() {
         const lista = nombresApi
           .map((nombreApi) => {
             const override = buscarOverridePorApi(nombreApi);
-            if (!override) return null;
-            return construirProfesional(override, nombreApi.trim(), true);
+            return override
+              ? construirProfesional(override, nombreApi.trim(), true)
+              : construirProfesionalDesdeApi(nombreApi);
           })
-          .filter((p): p is Profesional => p !== null)
           .sort((a, b) => a.orden - b.orden);
 
         setProfesionales(lista.length > 0 ? lista : fallbackLocal());
