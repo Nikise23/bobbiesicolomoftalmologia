@@ -112,7 +112,7 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
           autoComplete: 'tel',
           placeholder: '3511234567',
         })}
-        {campo('email', 'Email (opcional)', {
+        {campo('email', 'Email (opcional, para recibir la confirmación)', {
           type: 'email',
           autoComplete: 'email',
           placeholder: 'juan@correo.com',

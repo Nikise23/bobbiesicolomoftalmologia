@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { EstadoTurno } from './tipos';
+import type { DatosPaciente, EstadoTurno } from './tipos';
 import {
   crearTurno,
   getTurnosPaciente,
@@ -10,11 +10,13 @@ import {
 } from '@/services/publicApi';
 import { descargarTurnoIcs, urlGoogleCalendar } from '@/utils/calendarioTurno';
 import { formatearFechaLarga } from '@/utils/fecha';
+import { validarEmail } from '@/utils/validaciones';
 import { whatsappUrl } from '@/config/site';
 import { CheckIcon, WhatsAppIcon } from '@/components/icons';
 
 interface PasoConfirmacionProps {
   estado: EstadoTurno;
+  onDatosChange: (datos: DatosPaciente) => void;
   /** Registra la función de envío para el botón "Confirmar turno" del contenedor. */
   registrarEnvio: (fn: () => Promise<boolean>) => void;
   onEstadoEnvio: (enviando: boolean) => void;
@@ -22,11 +24,13 @@ interface PasoConfirmacionProps {
 
 function construirBody(estado: EstadoTurno): ReservaTurno {
   const { datos, tipoPaciente } = estado;
+  const email = datos.email.trim();
   const base: ReservaTurno = {
     medico: estado.medico!,
     fecha: estado.fecha!,
     hora: estado.hora!,
     dni: datos.dni.trim(),
+    ...(email ? { email } : {}),
   };
 
   if (tipoPaciente === 'habitual') {
@@ -46,11 +50,13 @@ function construirBody(estado: EstadoTurno): ReservaTurno {
 
 export function PasoConfirmacion({
   estado,
+  onDatosChange,
   registrarEnvio,
   onEstadoEnvio,
 }: PasoConfirmacionProps) {
   const [exito, setExito] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [fallbackWa, setFallbackWa] = useState(false);
   const [misTurnos, setMisTurnos] = useState<TurnoPaciente[] | null>(null);
   const [cargandoTurnos, setCargandoTurnos] = useState(false);
@@ -58,6 +64,14 @@ export function PasoConfirmacion({
   registrarEnvio(async () => {
     setError(null);
     setFallbackWa(false);
+    setErrorEmail(null);
+
+    const email = estado.datos.email.trim();
+    if (email && !validarEmail(email)) {
+      setErrorEmail('Ingresá un email válido o dejá el campo vacío.');
+      return false;
+    }
+
     onEstadoEnvio(true);
     try {
       await crearTurno(construirBody(estado));
@@ -104,6 +118,7 @@ export function PasoConfirmacion({
           ? `${estado.datos.nombre} ${estado.datos.apellido}`.trim()
           : undefined,
     };
+    const emailEnviado = estado.datos.email.trim();
 
     return (
       <div className="text-center">
@@ -114,8 +129,9 @@ export function PasoConfirmacion({
           ¡Turno confirmado!
         </h2>
         <p className="mt-2 text-sm text-brand-500">
-          Te esperamos. Guardá el turno en tu calendario o sacá una captura de pantalla para
-          tenerlo a mano.
+          {emailEnviado
+            ? `Te esperamos. También te enviamos la confirmación a ${emailEnviado}.`
+            : 'Te esperamos. Guardá el turno en tu calendario o sacá una captura de pantalla para tenerlo a mano.'}
         </p>
 
         <dl className="mx-auto mt-6 max-w-sm space-y-2 rounded-xl bg-white p-5 text-left text-sm">
@@ -241,6 +257,35 @@ export function PasoConfirmacion({
           </div>
         )}
       </dl>
+
+      <div className="mt-5">
+        <label htmlFor="email-confirmacion" className="label-field">
+          Email (opcional)
+        </label>
+        <input
+          id="email-confirmacion"
+          type="email"
+          className="input-field"
+          value={estado.datos.email}
+          onChange={(e) => {
+            setErrorEmail(null);
+            onDatosChange({ ...estado.datos, email: e.target.value });
+          }}
+          autoComplete="email"
+          placeholder="tu@correo.com"
+          aria-invalid={!!errorEmail}
+          aria-describedby={errorEmail ? 'email-confirmacion-error' : 'email-confirmacion-hint'}
+        />
+        {errorEmail ? (
+          <p id="email-confirmacion-error" role="alert" className="mt-1 text-xs text-red-600">
+            {errorEmail}
+          </p>
+        ) : (
+          <p id="email-confirmacion-hint" className="mt-1 text-xs text-brand-500">
+            Si lo completás, te enviamos la confirmación del turno por mail. No es obligatorio.
+          </p>
+        )}
+      </div>
 
       {error && (
         <div role="alert" className="mt-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">

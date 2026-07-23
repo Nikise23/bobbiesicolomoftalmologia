@@ -8,7 +8,7 @@ export interface DatosPaciente {
   celular: string;
   obraSocial: string;
   numeroObraSocial: string;
-  email: string; // solo local (contacto/consentimiento)
+  email: string; // opcional: confirmación de turno por mail (no se persiste en ficha)
   acepta: boolean;
 }
 

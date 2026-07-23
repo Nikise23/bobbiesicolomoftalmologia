@@ -113,6 +113,8 @@ export interface ReservaTurno {
   obra_social?: string;
   numero_obra_social?: string;
   fecha_nacimiento?: string; // dd/mm/aaaa
+  /** Opcional: si viene, el backend envía confirmación al paciente (no se guarda en ficha). */
+  email?: string;
   observacion?: string;
 }
 

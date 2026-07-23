@@ -164,6 +164,7 @@ export function TurnosWizard() {
         {pasoId === 'confirmacion' && (
           <PasoConfirmacion
             estado={estado}
+            onDatosChange={setDatos}
             registrarEnvio={(fn) => {
               enviarRef.current = fn;
             }}
