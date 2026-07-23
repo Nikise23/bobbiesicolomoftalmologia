@@ -16,5 +16,23 @@
     "foto": "/profesionales/dra-bobbiesi.jpg",
     "orden": 2,
     "visible": true
+  },
+  {
+    "medicoNombre": "Dra. Martina Conema",
+    "medicoApi": "Martina Conema",
+    "especialidad": "Oftalmología",
+    "resena": "Forma parte del equipo del consultorio, acompañando a los pacientes en el diagnóstico y seguimiento oftalmológico con atención cercana y profesional.",
+    "foto": "/profesionales/dra-conema.webp",
+    "orden": 3,
+    "visible": true
+  },
+  {
+    "medicoNombre": "Dr. Juan Julián",
+    "medicoApi": "Juan Julian",
+    "especialidad": "Oftalmología",
+    "resena": "Integra el equipo oftalmológico del consultorio, brindando atención clara y personalizada en el cuidado de la salud visual.",
+    "foto": "/profesionales/dr-julian.webp",
+    "orden": 4,
+    "visible": true
   }
 ]
