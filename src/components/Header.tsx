@@ -54,7 +54,7 @@ export function Header() {
     }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-200 bg-brand-50/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-brand-200 bg-brand-100/95 backdrop-blur">
       <div className="page-shell flex h-16 items-center justify-between gap-4 lg:h-20">
         <Link to="/" className="flex items-center gap-3" aria-label={`Inicio · ${site.nombre}`}>
           <img

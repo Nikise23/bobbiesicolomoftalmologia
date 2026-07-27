@@ -36,7 +36,7 @@ export const site = {
   email: '',
 
   /** URLs. */
-  siteUrl: env.VITE_SITE_URL ?? 'https://www.ejemplo.com.ar',
+  siteUrl: env.VITE_SITE_URL ?? 'https://www.oftalmologiacolombobbiesi.com.ar',
   /** Panel interno / sistema de historias clínicas (link "Acceso personal"). */
   sistemaUrl: env.VITE_SISTEMA_URL ?? 'https://colom-bobbiesi.onrender.com/',
   /** iframe de Google Maps embebido en Contacto. */

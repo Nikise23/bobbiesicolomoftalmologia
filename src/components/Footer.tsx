@@ -42,7 +42,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-8 py-3 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-700"
             >
-              <WhatsAppIcon className="h-5 w-5" />
+              <WhatsAppIcon className="h-5 w-5 text-whatsapp" />
               Escribinos por WhatsApp
             </a>
           )}
@@ -59,7 +59,7 @@ export function Footer() {
         >
           <path
             d="M0,32 C240,80 480,80 720,48 C960,16 1200,16 1440,48 L1440,80 L0,80 Z"
-            fill="#2f2216"
+            className="fill-brand-900"
           />
         </svg>
       </div>
@@ -135,9 +135,9 @@ export function Footer() {
                   href={whatsappUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-accent-600 hover:text-accent-700"
+                  className="flex items-center gap-2 text-white/60 hover:text-whatsapp"
                 >
-                  <WhatsAppIcon className="h-4 w-4 shrink-0" />
+                  <WhatsAppIcon className="h-4 w-4 shrink-0 text-whatsapp" />
                   WhatsApp
                 </a>
               </li>

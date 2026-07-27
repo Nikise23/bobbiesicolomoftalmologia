@@ -54,7 +54,7 @@ export function Profesionales() {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <h3 className="font-display text-xl font-bold text-accent-600">
+                    <h3 className="font-display text-xl font-bold text-accent-500">
                       {pro.nombre}
                     </h3>
                     <p className="mt-1 text-sm font-bold uppercase tracking-wide text-brand-500">

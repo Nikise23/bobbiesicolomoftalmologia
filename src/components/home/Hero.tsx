@@ -47,7 +47,7 @@ export function Hero() {
       <div className="page-shell relative z-10 py-20">
         <div className="max-w-2xl">
           <p className="eyebrow">Oftalmología · {site.ciudad}</p>
-          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-brand-800 sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-accent-500 sm:text-5xl lg:text-6xl">
             {site.tagline}
           </h1>
           <p className="mt-5 max-w-xl text-lg text-brand-600">

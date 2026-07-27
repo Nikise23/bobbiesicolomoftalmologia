@@ -49,7 +49,7 @@
   }
 
   .section-title-light {
-    @apply font-display text-2xl font-bold tracking-tight text-brand-800 sm:text-3xl;
+    @apply font-display text-2xl font-bold tracking-tight text-accent-500 sm:text-3xl;
   }
 
   .section-subtitle {
@@ -93,10 +93,10 @@
   .hero-bg__mesh {
     @apply absolute inset-0;
     background:
-      radial-gradient(ellipse 90% 70% at 85% 15%, rgba(168, 111, 44, 0.14), transparent 55%),
-      radial-gradient(ellipse 70% 60% at 10% 90%, rgba(125, 95, 61, 0.12), transparent 50%),
-      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(243, 235, 221, 0.9), transparent),
-      linear-gradient(160deg, #faf6ef 0%, #f5ede0 35%, #faf6ef 70%, #f3ebdd 100%);
+      radial-gradient(ellipse 90% 70% at 85% 15%, rgba(30, 77, 140, 0.12), transparent 55%),
+      radial-gradient(ellipse 70% 60% at 10% 90%, rgba(71, 85, 105, 0.1), transparent 50%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(238, 241, 245, 0.9), transparent),
+      linear-gradient(160deg, #f8fafc 0%, #eef1f5 35%, #f8fafc 70%, #e8edf3 100%);
   }
 
   .hero-bg__orb {
@@ -109,7 +109,7 @@
     right: -5%;
     height: 420px;
     width: 420px;
-    background: radial-gradient(circle, rgba(193, 135, 60, 0.22) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(30, 77, 140, 0.18) 0%, transparent 70%);
     animation-delay: 0s;
   }
 
@@ -118,7 +118,7 @@
     left: -8%;
     height: 380px;
     width: 380px;
-    background: radial-gradient(circle, rgba(154, 120, 79, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(71, 85, 105, 0.14) 0%, transparent 70%);
     animation-delay: -6s;
   }
 
@@ -127,13 +127,13 @@
     right: 25%;
     height: 260px;
     width: 260px;
-    background: radial-gradient(circle, rgba(232, 212, 168, 0.35) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(171, 198, 225, 0.35) 0%, transparent 70%);
     animation-delay: -12s;
   }
 
   .hero-bg__dots {
     @apply absolute inset-0 opacity-40;
-    background-image: radial-gradient(rgba(125, 95, 61, 0.18) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(71, 85, 105, 0.16) 1px, transparent 1px);
     background-size: 28px 28px;
     mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 85%);
   }

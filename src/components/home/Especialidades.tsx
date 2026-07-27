@@ -12,7 +12,7 @@ export function Especialidades() {
       <div className="page-shell">
         <ScrollReveal>
           <p className="eyebrow">Diagnóstico</p>
-          <h2 className="section-title mt-3 text-accent-600">Estudios y servicios</h2>
+          <h2 className="section-title mt-3 text-accent-500">Estudios y servicios</h2>
           <p className="section-subtitle-light">
             Contamos con equipamiento de última generación para el diagnóstico y
             seguimiento de la salud ocular.

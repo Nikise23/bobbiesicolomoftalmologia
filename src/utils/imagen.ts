@@ -5,7 +5,7 @@ export const PLACEHOLDER_SVG =
   'data:image/svg+xml;charset=utf-8,' +
   encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-      <rect width="800" height="600" fill="#f3ebdd"/>
+      <rect width="800" height="600" fill="#eef1f5"/>
       <g fill="none" stroke="#c1873c" stroke-width="8" opacity="0.55">
         <circle cx="400" cy="300" r="120"/>
         <circle cx="400" cy="300" r="45"/>

@@ -4,33 +4,33 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Escala cálida: crema (50) → beige/tan → marrón → espresso (900).
+        // Escala fría: blanco (50) → gris claro → gris → casi negro (900).
         brand: {
-          50: '#faf6ef',
-          100: '#f3ebdd',
-          200: '#e6d7bf',
-          300: '#d3bd99',
-          400: '#b8996e',
-          500: '#9a784f',
-          600: '#7d5f3d',
-          700: '#5f472c',
-          800: '#45331f',
-          900: '#2f2216',
+          50: '#f8fafc',
+          100: '#eef1f5',
+          200: '#dde3ea',
+          300: '#c5ced8',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
         },
-        // Acento marrón caramelo para CTAs, títulos destacados y detalles.
+        // Acento azul oscuro para CTAs, títulos destacados y detalles.
         accent: {
-          50: '#f9f1e5',
-          100: '#f0ddc3',
-          200: '#e3c294',
-          300: '#d2a463',
-          400: '#c1873c',
-          500: '#a86f2c',
-          600: '#8c5a25',
-          700: '#6f471f',
-          800: '#573818',
+          50: '#eef3f9',
+          100: '#d5e2f0',
+          200: '#abc6e1',
+          300: '#7aa3cb',
+          400: '#4a7fb0',
+          500: '#1e4d8c',
+          600: '#163a6b',
+          700: '#122f56',
+          800: '#0d2342',
         },
-        // Tono acorde al sitio para íconos/enlaces de WhatsApp (ya no verde marca).
-        whatsapp: '#8c5a25',
+        // Verde marca de WhatsApp.
+        whatsapp: '#25D366',
       },
       fontFamily: {
         display: ['"DM Sans"', 'system-ui', 'sans-serif'],

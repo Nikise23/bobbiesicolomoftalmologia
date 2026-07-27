@@ -168,7 +168,7 @@ export function Coberturas() {
       <div className="page-shell">
         <ScrollReveal>
           <p className="eyebrow">Atención por obra social</p>
-          <h2 className="section-title mt-3 text-accent-600">Coberturas médicas</h2>
+          <h2 className="section-title mt-3 text-accent-500">Coberturas médicas</h2>
           <p className="section-subtitle-light">
             Trabajamos con las principales obras sociales y prepagas. Tocá cada logo para ver
             planes y consultar por WhatsApp.

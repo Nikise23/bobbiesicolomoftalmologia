@@ -33,7 +33,7 @@ Copiá `.env.example` a `.env.local` para desarrollo.
 
 | Variable | Ejemplo | Uso |
 | --- | --- | --- |
-| `VITE_SITE_URL` | `https://www.ejemplo.com.ar` | SEO, canonical, sitemap |
+| `VITE_SITE_URL` | `https://www.oftalmologiacolombobbiesi.com.ar` | SEO, canonical, sitemap |
 | `VITE_API_URL` | `https://colom-bobbiesi.onrender.com` | Backend (SIN `/api/public/v1`) |
 | `VITE_PUBLIC_API_KEY` | *(solo dev local)* | Header `X-API-Key` en modo directo |
 | `VITE_USE_API_PROXY` | `false` / `true` | En prod: `true` + proxy serverless |
@@ -134,7 +134,7 @@ cuando el backend lo soporte.
 
 | Variable | Valor |
 | --- | --- |
-| `PUBLIC_API_CORS_ORIGIN` | `https://www.ejemplo.com.ar` (y `http://localhost:5173` para dev) |
+| `PUBLIC_API_CORS_ORIGIN` | `https://www.oftalmologiacolombobbiesi.com.ar` (y `http://localhost:5173` para dev) |
 | `PUBLIC_API_KEY` | clave segura de producción (distinta a la de dev) |
 | `PUBLIC_API_MAX_DIAS` | `60` (o el máximo deseado) |
 

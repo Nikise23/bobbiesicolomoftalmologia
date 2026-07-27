@@ -67,7 +67,7 @@ export function Contacto() {
                 </li>
 
                 <li className="flex items-start gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-500/15 text-accent-600">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-whatsapp">
                     <WhatsAppIcon className="h-5 w-5" />
                   </span>
                   <div>
@@ -76,7 +76,7 @@ export function Contacto() {
                       href={whatsappUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1 block text-sm text-accent-600 hover:text-accent-700"
+                      className="mt-1 block text-sm text-[#128C7E] hover:text-whatsapp"
                     >
                       Escribinos por WhatsApp
                     </a>
