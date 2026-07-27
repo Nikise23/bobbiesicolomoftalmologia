@@ -94,6 +94,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/#coberturas" className="hover:text-accent-300">
+                  Obras Sociales
+                </a>
+              </li>
+              <li>
                 <a href="/#profesionales" className="hover:text-accent-300">
                   Profesionales
                 </a>
@@ -104,9 +109,9 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <Link to="/cirugia" className="hover:text-accent-300">
+                <a href="/#cirugia" className="hover:text-accent-300">
                   Cirugía
-                </Link>
+                </a>
               </li>
               <li>
                 <Link to="/contacto" className="hover:text-accent-300">
@@ -187,14 +192,6 @@ export function Footer() {
                 </a>
               )}
             </div>
-            <a
-              href={site.sistemaUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-block text-xs font-medium text-white/40 hover:text-accent-300"
-            >
-              Acceso personal
-            </a>
           </div>
         </div>
 

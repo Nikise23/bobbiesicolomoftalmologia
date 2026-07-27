@@ -12,6 +12,8 @@ export interface ProfesionalOverride {
   especialidad?: string;
   resena?: string;
   foto?: string;
+  /** Clases extra de Tailwind para el <img> (zoom / object-position). */
+  fotoClase?: string;
   orden?: number;
   /** false = no aparece en la web ni en turnos online. */
   visible?: boolean;
@@ -25,6 +27,10 @@ export interface Profesional {
   especialidad: string;
   resena: string;
   foto: string;
+  /** Clases extra para encuadre/zoom de la foto. */
+  fotoClase?: string;
+  /** Días y momento de atención (ej. "Miércoles y viernes por la tarde"). */
+  agenda?: string;
   orden: number;
   /** true si el nombre vino de la API pública. */
   desdeApi: boolean;
@@ -56,26 +62,34 @@ function buscarOverridePorApi(nombreApi: string): ProfesionalOverride | undefine
   });
 }
 
-function construirProfesional(o: ProfesionalOverride, medicoApi: string, desdeApi: boolean): Profesional {
+function construirProfesional(
+  o: ProfesionalOverride,
+  medicoApi: string,
+  desdeApi: boolean,
+  agenda = ''
+): Profesional {
   return {
     nombre: o.medicoNombre,
     medicoApi,
     especialidad: o.especialidad ?? 'Oftalmología',
     resena: o.resena ?? '',
     foto: fotosProfesionales[o.medicoNombre] ?? o.foto ?? FOTO_PLACEHOLDER,
+    fotoClase: o.fotoClase,
+    agenda: agenda || undefined,
     orden: o.orden ?? 999,
     desdeApi,
   };
 }
 
 /** Profesional habilitado por la API que todavía no tiene perfil local. */
-function construirProfesionalDesdeApi(medicoApi: string): Profesional {
+function construirProfesionalDesdeApi(medicoApi: string, agenda = ''): Profesional {
   return {
     nombre: medicoApi.trim(),
     medicoApi: medicoApi.trim(),
     especialidad: 'Oftalmología',
     resena: '',
     foto: FOTO_PLACEHOLDER,
+    agenda: agenda || undefined,
     orden: 999,
     desdeApi: true,
   };
@@ -107,15 +121,16 @@ export function useProfesionales() {
       setLoading(true);
       setError(null);
       try {
-        const nombresApi = await getMedicos(controller.signal);
+        const { medicos: nombresApi, agendas } = await getMedicos(controller.signal);
         if (!activo) return;
 
         const lista = nombresApi
           .map((nombreApi) => {
             const override = buscarOverridePorApi(nombreApi);
+            const agenda = agendas[nombreApi] ?? '';
             return override
-              ? construirProfesional(override, nombreApi.trim(), true)
-              : construirProfesionalDesdeApi(nombreApi);
+              ? construirProfesional(override, nombreApi.trim(), true, agenda)
+              : construirProfesionalDesdeApi(nombreApi, agenda);
           })
           .sort((a, b) => a.orden - b.orden);
 

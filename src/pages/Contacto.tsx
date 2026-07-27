@@ -8,6 +8,7 @@ import {
   MapPinIcon,
   ClockIcon,
   MailIcon,
+  InstagramIcon,
 } from '@/components/icons';
 
 export function Contacto() {
@@ -82,6 +83,25 @@ export function Contacto() {
                     </a>
                   </div>
                 </li>
+
+                {site.redes.instagram && (
+                  <li className="flex items-start gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-600">
+                      <InstagramIcon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h2 className="font-display font-semibold text-brand-700">Instagram</h2>
+                      <a
+                        href={site.redes.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 block text-sm text-brand-600 hover:text-accent-600"
+                      >
+                        @colom.bobbiesi.consultorios
+                      </a>
+                    </div>
+                  </li>
+                )}
 
                 {site.email && (
                   <li className="flex items-start gap-4">

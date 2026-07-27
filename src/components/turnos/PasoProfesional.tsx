@@ -66,7 +66,7 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
                   width={64}
                   height={80}
                   loading="lazy"
-                  className="h-16 w-14 shrink-0 rounded-lg object-cover"
+                  className={`h-16 w-14 shrink-0 rounded-lg object-cover ${pro.fotoClase ?? ''}`}
                   onError={onImageError}
                 />
                 <span>
@@ -76,6 +76,11 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
                   <span className="block text-xs font-medium uppercase tracking-wide text-brand-400">
                     {pro.especialidad}
                   </span>
+                  {pro.agenda && (
+                    <span className="mt-1 block text-xs leading-snug text-brand-500">
+                      {pro.agenda}
+                    </span>
+                  )}
                 </span>
               </button>
             );

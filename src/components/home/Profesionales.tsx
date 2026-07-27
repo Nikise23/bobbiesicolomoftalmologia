@@ -49,7 +49,7 @@ export function Profesionales() {
                       width={320}
                       height={400}
                       loading="lazy"
-                      className="aspect-[4/5] w-full object-cover"
+                      className={`aspect-[4/5] w-full object-cover ${pro.fotoClase ?? ''}`}
                       onError={onImageError}
                     />
                   </div>
@@ -60,6 +60,9 @@ export function Profesionales() {
                     <p className="mt-1 text-sm font-bold uppercase tracking-wide text-brand-500">
                       {pro.especialidad}
                     </p>
+                    {pro.agenda && (
+                      <p className="mt-1 text-sm text-brand-500">{pro.agenda}</p>
+                    )}
                     {pro.resena && (
                       <p className="mt-3 text-sm leading-relaxed text-brand-500/90">
                         {pro.resena}

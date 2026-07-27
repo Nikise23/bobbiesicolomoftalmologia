@@ -19,18 +19,25 @@ export const opinionesResumen = {
 
 export const opiniones: Opinion[] = [
   {
-    autor: 'Florencia Orrego',
-    fecha: 'hace 3 meses',
+    autor: 'sofy songs',
+    fecha: 'hace 1 semana',
     estrellas: 5,
     texto:
-      'Mis hijos se atienden con la Dra. Bobbiesi y es un encanto, súper paciente y atenta. Tienen uno de 3 años y la otra de 10 meses. Destaco no solo que es una gran profesional, sino la calidez: voy a todos lados sola con mis hijos.',
+      'La verdad no puedo decir mucho. Me cambiaron la vida. Después de un año sin respuesta por parte de otros médicos la cirugía fue un éxito. La doctora muy profesional y la recepcionista súper amable. Mucha paciencia con los niños ambas, yo ya era una "niña" de 20 años así que pudimos hablar bien y me explicó todo.',
   },
   {
-    autor: 'Rocío Buonsignore',
-    fecha: 'hace 4 meses',
+    autor: 'Belén Demarco',
+    fecha: 'hace 2 semanas',
     estrellas: 5,
     texto:
-      'Tuvimos muy buena experiencia tanto con la doctora como con el doctor. Súper puntuales con los turnos y muy amables en todo momento. Los chicos de recepción también súper bien. Recomiendo mucho este lugar.',
+      'Excelente atención. Fuimos con mi hija de 4 años y las dos nos atendimos con el Dr. Colom. Tanto él como la recepcionista fueron muy amables, cálidos y profesionales. Da gusto encontrar lugares que atienden con tanta dedicación y respeto. Sin dudas, lo recomiendo.',
+  },
+  {
+    autor: 'Gimena Cabrera',
+    fecha: 'hace 3 semanas',
+    estrellas: 5,
+    texto:
+      'Excelente atención en oftalmología, atienden super bien!! Siempre atienden a horario!!',
   },
   {
     autor: 'César Valle',
@@ -40,13 +47,6 @@ export const opiniones: Opinion[] = [
       'Hice un examen de la vista y tuve una buena atención por parte del personal. Recomiendo contactarlos por WhatsApp. Saludos.',
   },
   {
-    autor: 'Matías Andre',
-    fecha: 'hace 4 meses',
-    estrellas: 5,
-    texto:
-      'Excelente atención, te explican todo muy claro. Fui por mí y también por mi hijo y siempre muy bien. Los recomiendo.',
-  },
-  {
     autor: 'Guada Ibarra',
     fecha: 'hace 2 meses',
     estrellas: 5,
@@ -54,10 +54,10 @@ export const opiniones: Opinion[] = [
       'Excelente atención médica. En recepción también nos atendieron muy bien. El cuerpo médico es excelente. Muy recomendable.',
   },
   {
-    autor: 'Sofi Pisani',
-    fecha: 'hace 4 meses',
+    autor: 'Florencia Orrego',
+    fecha: 'hace 3 meses',
     estrellas: 5,
     texto:
-      'Ya fui varias veces y siempre la atención es excelente, siempre atienden en horario y todos los profesionales son muy cálidos. Hoy tuve que ir por una urgencia y me dieron un sobreturno en el día y me atendieron en el horario indicado. Muy contenta de haber conocido los consultorios, ahora siempre que tengo que ir, voy con ellos.',
+      'Mis hijos se atienden con la Dra. Bobbiesi y es un encanto, súper paciente y atenta. Tienen uno de 3 años y la otra de 10 meses. Destaco no solo que es una gran profesional, sino la calidez: voy a todos lados sola con mis hijos.',
   },
 ];

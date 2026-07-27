@@ -13,7 +13,8 @@
     "medicoApi": "Marianela Bobbiesi",
     "especialidad": "Oftalmopediatría",
     "resena": "Especialista en oftalmopediatría, es la encargada de acompañar a los más pequeños en su camino hacia una mejor visión y calidad de vida, con un enfoque cuidadoso y cercano para cada niño y su familia.",
-    "foto": "/profesionales/dra-bobbiesi.jpg",
+    "foto": "/profesionales/dra-bobbiesi.webp",
+    "fotoClase": "scale-[1.35] object-[70%_10%]",
     "orden": 2,
     "visible": true
   },

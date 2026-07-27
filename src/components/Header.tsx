@@ -15,9 +15,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Nosotros', to: '/#nosotros', hash: true },
+  { label: 'Obras Sociales', to: '/#coberturas', hash: true },
   { label: 'Profesionales', to: '/#profesionales', hash: true },
   { label: 'Estudios', to: '/#estudios', hash: true },
-  { label: 'Cirugía', to: '/cirugia' },
+  { label: 'Cirugía', to: '/#cirugia', hash: true },
   { label: 'Contacto', to: '/contacto' },
 ];
 
@@ -102,14 +103,6 @@ export function Header() {
 
         <div className="hidden items-center gap-4 lg:flex">
           <TurnosCta mostrarWhatsapp={false} />
-          <a
-            href={site.sistemaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-medium text-brand-400 transition-colors hover:text-accent-600"
-          >
-            Acceso personal
-          </a>
         </div>
 
         <button
@@ -168,15 +161,6 @@ export function Header() {
                 <div className="mt-3 border-t border-brand-200 pt-4">
                   <TurnosCta />
                 </div>
-                <a
-                  href={site.sistemaUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 flex min-h-[44px] items-center text-sm font-medium text-brand-400"
-                  onClick={() => setOpen(false)}
-                >
-                  Acceso personal
-                </a>
               </nav>
             </div>
           </>,

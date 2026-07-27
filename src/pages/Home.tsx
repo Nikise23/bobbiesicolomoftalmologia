@@ -5,6 +5,7 @@ import { Nosotros } from '@/components/home/Nosotros';
 import { Profesionales } from '@/components/home/Profesionales';
 import { Especialidades } from '@/components/home/Especialidades';
 import { Coberturas } from '@/components/home/Coberturas';
+import { Cirugia } from '@/components/home/Cirugia';
 import { Opiniones } from '@/components/home/Opiniones';
 
 export function Home() {
@@ -17,10 +18,11 @@ export function Home() {
       />
       <Hero />
       <Nosotros />
+      <Coberturas />
       <Profesionales />
       <Opiniones />
-      <Coberturas />
       <Especialidades />
+      <Cirugia />
     </>
   );
 }

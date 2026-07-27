@@ -4,11 +4,13 @@ import fachada from './fachada.webp';
 import fachadaFallback from './fachada.jpg';
 import favicon from './favicon.png';
 import drColom from './profesionales/dr-colom.jpg';
-import draBobbiesi from './profesionales/dra-bobbiesi.jpg';
+import draBobbiesi from './profesionales/dra-bobbiesi.webp';
 import draConema from './profesionales/dra-conema.webp';
 import drJulian from './profesionales/dr-julian.webp';
 import estudioPlaceholder from './estudio-placeholder.svg';
 import cirugiaPlaceholder from './cirugia-placeholder.svg';
+import fondoOjo from './estudios/fondo-ojo.jpg';
+import campoVisual from './estudios/campo-visual.webp';
 
 export {
   logo,
@@ -22,6 +24,8 @@ export {
   drJulian,
   estudioPlaceholder,
   cirugiaPlaceholder,
+  fondoOjo,
+  campoVisual,
 };
 
 /** Fotos de profesionales por nombre exacto (API / overrides). */

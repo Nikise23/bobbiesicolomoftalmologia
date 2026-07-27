@@ -78,6 +78,8 @@ client.interceptors.response.use(undefined, async (error: AxiosError) => {
 
 export interface MedicosResponse {
   medicos: string[];
+  /** Resumen de días/momento según agenda web (opcional, backends nuevos). */
+  detalle?: Array<{ nombre: string; agenda: string }>;
 }
 
 export interface DisponibilidadResponse {
@@ -134,9 +136,18 @@ export interface TurnosPacienteResponse {
 /* Endpoints                                                                   */
 /* -------------------------------------------------------------------------- */
 
-export async function getMedicos(signal?: AbortSignal): Promise<string[]> {
+export async function getMedicos(
+  signal?: AbortSignal
+): Promise<{ medicos: string[]; agendas: Record<string, string> }> {
   const { data } = await client.get<MedicosResponse>('/medicos', { signal });
-  return data.medicos ?? [];
+  const medicos = data.medicos ?? [];
+  const agendas: Record<string, string> = {};
+  for (const item of data.detalle ?? []) {
+    if (item?.nombre && item.agenda) {
+      agendas[item.nombre] = item.agenda;
+    }
+  }
+  return { medicos, agendas };
 }
 
 export async function getDisponibilidad(

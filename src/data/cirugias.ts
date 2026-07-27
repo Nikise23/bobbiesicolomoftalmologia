@@ -1,7 +1,7 @@
 import { cirugiaPlaceholder } from '@/assets/images';
 
 /**
- * Cirugías ofrecidas (página /cirugia).
+ * Cirugías ofrecidas (sección #cirugia del home).
  * Reemplazá `cirugiaPlaceholder` por fotos reales en src/assets/images/ cuando las tengas.
  */
 export interface Cirugia {

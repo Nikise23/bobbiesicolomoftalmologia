@@ -1,4 +1,8 @@
-import { estudioPlaceholder } from '@/assets/images';
+import {
+  estudioPlaceholder,
+  fondoOjo,
+  campoVisual,
+} from '@/assets/images';
 
 /**
  * Estudios y servicios de diagnóstico ofrecidos.
@@ -21,7 +25,7 @@ export const especialidades: Especialidad[] = [
     nombre: 'Campo Visual Computarizado',
     descripcion:
       'Evaluación funcional del campo visual, clave en el control del glaucoma y otras afecciones del nervio óptico.',
-    imagen: estudioPlaceholder,
+    imagen: campoVisual,
   },
   {
     nombre: 'Retinografía',
@@ -30,10 +34,10 @@ export const especialidades: Especialidad[] = [
     imagen: estudioPlaceholder,
   },
   {
-    nombre: 'Biometría',
+    nombre: 'Fondo de ojo y toma de presión intraocular',
     descripcion:
-      'Medición precisa del ojo para el cálculo del lente intraocular previo a la cirugía de cataratas.',
-    imagen: estudioPlaceholder,
+      'Examen del interior del ojo (retina, nervio óptico y vasos) junto con la medición de la presión intraocular, fundamental para el diagnóstico y seguimiento de glaucoma y otras patologías oculares.',
+    imagen: fondoOjo,
   },
   {
     nombre: 'Paquimetría',
