@@ -27,12 +27,26 @@ function validar(datos: DatosPaciente): Errores {
     e.fechaNacimiento = 'Usá el formato dd/mm/aaaa.';
   if (!validarCelular(datos.celular)) e.celular = 'Ingresá un celular válido.';
   if (!datos.obraSocial.trim()) e.obraSocial = 'Ingresá tu obra social (o "Particular").';
-  if (!datos.numeroObraSocial.trim())
-    e.numeroObraSocial = 'Ingresá tu número de afiliado.';
   if (datos.email.trim() && !validarEmail(datos.email))
     e.email = 'El email no es válido.';
   if (!datos.acepta) e.acepta = 'Necesitamos tu conformidad para continuar.';
   return e;
+}
+
+function etiqueta(label: string, obligatorio: boolean) {
+  return (
+    <>
+      {label}
+      {obligatorio ? (
+        <span className="text-accent-600" aria-hidden="true">
+          {' '}
+          *
+        </span>
+      ) : (
+        <span className="font-normal text-brand-400"> (opcional)</span>
+      )}
+    </>
+  );
 }
 
 /** Paso datos completos — solo pacientes nuevos. */
@@ -52,12 +66,13 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
   const campo = (
     id: keyof DatosPaciente,
     label: string,
+    obligatorio: boolean,
     props: React.InputHTMLAttributes<HTMLInputElement> = {},
     formatear?: (valor: string) => string
   ) => (
     <div>
       <label htmlFor={id} className="label-field">
-        {label}
+        {etiqueta(label, obligatorio)}
       </label>
       <input
         id={id}
@@ -67,6 +82,8 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
           const valor = e.target.value;
           set(id, formatear ? formatear(valor) : valor);
         }}
+        required={obligatorio}
+        aria-required={obligatorio}
         aria-invalid={!!errores[id]}
         aria-describedby={errores[id] ? `${id}-error` : undefined}
         {...props}
@@ -84,15 +101,20 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
       <h2 className="font-display text-xl font-bold text-brand-700">Tus datos</h2>
       <p className="mt-1 text-sm text-brand-500">
         Como sos paciente nuevo, completá tus datos para darte de alta en el consultorio.
+        Los campos con <span className="font-semibold text-accent-600">*</span> son
+        obligatorios.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        {campo('nombre', 'Nombre', { autoComplete: 'given-name', placeholder: 'Juan' })}
-        {campo('apellido', 'Apellido', {
+        {campo('nombre', 'Nombre', true, {
+          autoComplete: 'given-name',
+          placeholder: 'Juan',
+        })}
+        {campo('apellido', 'Apellido', true, {
           autoComplete: 'family-name',
           placeholder: 'Pérez',
         })}
-        {campo('dni', 'DNI', {
+        {campo('dni', 'DNI', true, {
           inputMode: 'numeric',
           placeholder: '12345678',
           maxLength: 8,
@@ -100,6 +122,7 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
         {campo(
           'fechaNacimiento',
           'Fecha de nacimiento',
+          true,
           {
             placeholder: 'dd/mm/aaaa',
             inputMode: 'numeric',
@@ -107,18 +130,22 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
           },
           formatearFechaNacimientoInput
         )}
-        {campo('celular', 'Celular', {
+        {campo('celular', 'Celular', true, {
           inputMode: 'tel',
           autoComplete: 'tel',
           placeholder: '3511234567',
         })}
-        {campo('email', 'Email (opcional, para recibir la confirmación)', {
+        {campo('email', 'Email', false, {
           type: 'email',
           autoComplete: 'email',
           placeholder: 'juan@correo.com',
         })}
-        {campo('obraSocial', 'Obra social', { placeholder: 'OSDE / Particular' })}
-        {campo('numeroObraSocial', 'N° de afiliado', { placeholder: '123456' })}
+        {campo('obraSocial', 'Obra social', true, {
+          placeholder: 'OSDE / Particular',
+        })}
+        {campo('numeroObraSocial', 'N° de afiliado', false, {
+          placeholder: '123456',
+        })}
       </div>
 
       <div className="mt-5">
@@ -130,10 +157,14 @@ export function PasoDatos({ datos, onChange, registrarValidacion }: PasoDatosPro
             className="mt-0.5 h-5 w-5 shrink-0 rounded border-brand-300 text-accent-500 focus:ring-accent-400"
             aria-invalid={!!errores.acepta}
             aria-describedby={errores.acepta ? 'acepta-error' : undefined}
+            required
           />
           <span>
             Acepto que mis datos sean utilizados para gestionar mi turno y
-            contactarme ante cualquier novedad.
+            contactarme ante cualquier novedad.{' '}
+            <span className="text-accent-600" aria-hidden="true">
+              *
+            </span>
           </span>
         </label>
         {errores.acepta && (

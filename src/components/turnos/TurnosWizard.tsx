@@ -29,10 +29,11 @@ export function TurnosWizard() {
     datos: datosVacios,
   });
   const [enviando, setEnviando] = useState(false);
+  const [validando, setValidando] = useState(false);
   const [finalizado, setFinalizado] = useState(false);
 
   const validarDatosRef = useRef<() => boolean>(() => true);
-  const validarIdentificacionRef = useRef<() => boolean>(() => true);
+  const validarIdentificacionRef = useRef<() => boolean | Promise<boolean>>(() => true);
   const enviarRef = useRef<() => Promise<boolean>>(async () => true);
 
   const pasos = pasosPara(estado.tipoPaciente);
@@ -43,7 +44,13 @@ export function TurnosWizard() {
 
   const irAdelante = async () => {
     if (pasoId === 'identificacion') {
-      if (!validarIdentificacionRef.current()) return;
+      setValidando(true);
+      try {
+        const ok = await validarIdentificacionRef.current();
+        if (!ok) return;
+      } finally {
+        setValidando(false);
+      }
     }
     if (pasoId === 'datos') {
       if (!validarDatosRef.current()) return;
@@ -59,7 +66,11 @@ export function TurnosWizard() {
   const puedeAvanzar = () => {
     switch (pasoId) {
       case 'identificacion':
-        return !!estado.tipoPaciente;
+        if (!estado.tipoPaciente) return false;
+        if (estado.tipoPaciente === 'habitual') {
+          return estado.datos.dni.replace(/\D/g, '').length >= 7;
+        }
+        return true;
       case 'profesional':
         return !!estado.medico;
       case 'fecha':
@@ -178,7 +189,7 @@ export function TurnosWizard() {
               <button
                 type="button"
                 onClick={irAtras}
-                disabled={enviando}
+                disabled={enviando || validando}
                 className="inline-flex items-center gap-1 text-sm font-semibold text-brand-500 transition-colors hover:text-brand-700 disabled:opacity-50"
               >
                 <ChevronLeftIcon className="h-4 w-4" />
@@ -191,14 +202,16 @@ export function TurnosWizard() {
             <button
               type="button"
               onClick={irAdelante}
-              disabled={!puedeAvanzar() || enviando}
+              disabled={!puedeAvanzar() || enviando || validando}
               className="btn-primary"
             >
               {pasoId === 'confirmacion'
                 ? enviando
                   ? 'Confirmando…'
                   : 'Confirmar turno'
-                : 'Continuar'}
+                : validando
+                  ? 'Verificando…'
+                  : 'Continuar'}
             </button>
           </div>
         )}

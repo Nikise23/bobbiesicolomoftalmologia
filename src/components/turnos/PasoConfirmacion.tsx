@@ -43,7 +43,9 @@ function construirBody(estado: EstadoTurno): ReservaTurno {
     apellido: datos.apellido.trim(),
     celular: datos.celular.replace(/\D/g, ''),
     obra_social: datos.obraSocial.trim(),
-    numero_obra_social: datos.numeroObraSocial.trim(),
+    ...(datos.numeroObraSocial.trim()
+      ? { numero_obra_social: datos.numeroObraSocial.trim() }
+      : { numero_obra_social: '' }),
     fecha_nacimiento: datos.fechaNacimiento.trim(),
   };
 }
@@ -252,7 +254,10 @@ export function PasoConfirmacion({
           <div className="flex justify-between gap-4">
             <dt className="text-brand-400">Obra social</dt>
             <dd className="font-semibold text-brand-700">
-              {estado.datos.obraSocial} · {estado.datos.numeroObraSocial}
+              {estado.datos.obraSocial}
+              {estado.datos.numeroObraSocial.trim()
+                ? ` · ${estado.datos.numeroObraSocial}`
+                : ''}
             </dd>
           </div>
         )}
@@ -286,6 +291,22 @@ export function PasoConfirmacion({
           </p>
         )}
       </div>
+
+      <p
+        role="note"
+        className="mt-5 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm leading-relaxed text-brand-600"
+      >
+        Recuerde que su obra social puede estar sujeta a un copago. Cualquier duda{' '}
+        <a
+          href={whatsappUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-whatsapp underline hover:brightness-90"
+        >
+          contactarse por WhatsApp
+        </a>
+        .
+      </p>
 
       {error && (
         <div role="alert" className="mt-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">

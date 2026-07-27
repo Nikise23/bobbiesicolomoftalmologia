@@ -179,6 +179,18 @@ export async function getTurnosPaciente(
   return data.turnos ?? [];
 }
 
+/** Indica si el DNI ya está dado de alta en el consultorio (sin devolver ficha). */
+export async function pacienteExiste(
+  dni: string,
+  signal?: AbortSignal
+): Promise<boolean> {
+  const { data } = await client.get<{ dni: string; existe: boolean }>('/pacientes', {
+    params: { dni },
+    signal,
+  });
+  return Boolean(data.existe);
+}
+
 export async function cancelarTurno(
   dni: string,
   fecha: string,

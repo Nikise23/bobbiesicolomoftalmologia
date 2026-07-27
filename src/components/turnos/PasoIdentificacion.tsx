@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { TipoPaciente } from './tipos';
+import { pacienteExiste, parseApiError } from '@/services/publicApi';
 import { validarDni } from '@/utils/validaciones';
 
 interface PasoIdentificacionProps {
@@ -7,7 +8,7 @@ interface PasoIdentificacionProps {
   dni: string;
   onTipoChange: (tipo: TipoPaciente) => void;
   onDniChange: (dni: string) => void;
-  registrarValidacion: (fn: () => boolean) => void;
+  registrarValidacion: (fn: () => boolean | Promise<boolean>) => void;
 }
 
 /** Paso 1: paciente habitual (solo DNI) o paciente nuevo (datos completos más adelante). */
@@ -19,17 +20,36 @@ export function PasoIdentificacion({
   registrarValidacion,
 }: PasoIdentificacionProps) {
   const [errorDni, setErrorDni] = useState<string | null>(null);
+  const [verificando, setVerificando] = useState(false);
 
-  registrarValidacion(() => {
+  registrarValidacion(async () => {
     if (!tipo) return false;
-    if (tipo === 'habitual') {
-      if (!validarDni(dni)) {
-        setErrorDni('Ingresá un DNI válido (7 u 8 dígitos).');
+    if (tipo !== 'habitual') return true;
+
+    if (!validarDni(dni)) {
+      setErrorDni('Ingresá un DNI válido (7 u 8 dígitos).');
+      return false;
+    }
+
+    setVerificando(true);
+    setErrorDni(null);
+    try {
+      const existe = await pacienteExiste(dni.trim());
+      if (!existe) {
+        setErrorDni(
+          'No encontramos ese DNI en el sistema. Elegí "Soy paciente nuevo" y completá tus datos.'
+        );
         return false;
       }
       setErrorDni(null);
+      return true;
+    } catch (err) {
+      const parsed = parseApiError(err);
+      setErrorDni(parsed.message);
+      return false;
+    } finally {
+      setVerificando(false);
     }
-    return true;
   });
 
   const opcionClass = (activo: boolean) =>
@@ -52,7 +72,10 @@ export function PasoIdentificacion({
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <button
           type="button"
-          onClick={() => onTipoChange('habitual')}
+          onClick={() => {
+            setErrorDni(null);
+            onTipoChange('habitual');
+          }}
           aria-pressed={tipo === 'habitual'}
           className={opcionClass(tipo === 'habitual')}
         >
@@ -66,7 +89,10 @@ export function PasoIdentificacion({
 
         <button
           type="button"
-          onClick={() => onTipoChange('nuevo')}
+          onClick={() => {
+            setErrorDni(null);
+            onTipoChange('nuevo');
+          }}
           aria-pressed={tipo === 'nuevo'}
           className={opcionClass(tipo === 'nuevo')}
         >
@@ -82,7 +108,7 @@ export function PasoIdentificacion({
       {tipo === 'habitual' && (
         <div className="mt-6 max-w-sm">
           <label htmlFor="dni-habitual" className="label-field">
-            DNI
+            DNI <span className="text-accent-600">*</span>
           </label>
           <input
             id="dni-habitual"
@@ -95,6 +121,7 @@ export function PasoIdentificacion({
             inputMode="numeric"
             placeholder="12345678"
             autoComplete="off"
+            disabled={verificando}
             aria-invalid={!!errorDni}
             aria-describedby={errorDni ? 'dni-habitual-error' : 'dni-habitual-hint'}
           />
@@ -104,8 +131,9 @@ export function PasoIdentificacion({
             </p>
           ) : (
             <p id="dni-habitual-hint" className="mt-2 text-xs text-brand-500">
-              Si ya figura en nuestro sistema, con este DNI alcanza para confirmar el
-              turno sin volver a cargar tus datos.
+              {verificando
+                ? 'Verificando DNI en el sistema…'
+                : 'Si ya figura en nuestro sistema, con este DNI alcanza para confirmar el turno sin volver a cargar tus datos.'}
             </p>
           )}
         </div>
