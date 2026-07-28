@@ -1,8 +1,12 @@
-import { cirugiaPlaceholder } from '@/assets/images';
+import {
+  cirugiaRefractiva,
+  cirugiaCataratas,
+  cirugiaParpados,
+  cirugiaEstrabismo,
+} from '@/assets/images';
 
 /**
  * Cirugías ofrecidas (sección #cirugia del home).
- * Reemplazá `cirugiaPlaceholder` por fotos reales en src/assets/images/ cuando las tengas.
  */
 export interface Cirugia {
   nombre: string;
@@ -15,24 +19,24 @@ export const cirugias: Cirugia[] = [
     nombre: 'Cirugía de Cataratas',
     descripcion:
       'Reemplazo del cristalino opaco por un lente intraocular mediante facoemulsificación, un procedimiento ambulatorio y de rápida recuperación.',
-    imagen: cirugiaPlaceholder,
+    imagen: cirugiaCataratas,
   },
   {
-    nombre: 'Cirugía Refractiva',
+    nombre: 'Cirugía Refractiva (Para dejar de usar lentes)',
     descripcion:
       'Corrección de miopía, hipermetropía y astigmatismo para reducir o eliminar la dependencia de anteojos y lentes de contacto.',
-    imagen: cirugiaPlaceholder,
+    imagen: cirugiaRefractiva,
   },
   {
-    nombre: 'Cirugía de Pterigión',
+    nombre: 'Cirugía de Estrabismo',
     descripcion:
-      'Extracción del pterigión con técnicas que minimizan la recidiva y preservan la superficie ocular.',
-    imagen: cirugiaPlaceholder,
+      'Corrección del desalineamiento de los ojos (estrabismo) mediante el ajuste de los músculos oculares, mejorando la visión binocular y la estética.',
+    imagen: cirugiaEstrabismo,
   },
   {
-    nombre: 'Cirugía de Párpados',
+    nombre: 'Cirugía Estética de Párpados',
     descripcion:
-      'Tratamiento quirúrgico de patologías palpebrales que afectan la función visual y la estética del ojo.',
-    imagen: cirugiaPlaceholder,
+      'Excisión de verrugas y quistes, y corrección de párpados caídos.',
+    imagen: cirugiaParpados,
   },
 ];

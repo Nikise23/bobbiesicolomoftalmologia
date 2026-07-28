@@ -294,14 +294,14 @@ export function PasoConfirmacion({
 
       <p
         role="note"
-        className="mt-5 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm leading-relaxed text-brand-600"
+        className="mt-5 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-base font-bold leading-relaxed text-brand-700"
       >
         Recuerde que su obra social puede estar sujeta a un copago. Cualquier duda{' '}
         <a
           href={whatsappUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-whatsapp underline hover:brightness-90"
+          className="font-bold text-whatsapp underline hover:brightness-90"
         >
           contactarse por WhatsApp
         </a>

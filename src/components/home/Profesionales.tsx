@@ -1,4 +1,4 @@
-import { useProfesionales } from '@/hooks/useProfesionales';
+import { useProfesionales, agendaComoItems } from '@/hooks/useProfesionales';
 import { ScrollReveal, revealSide } from '@/components/ScrollReveal';
 import { onImageError } from '@/utils/imagen';
 
@@ -39,7 +39,9 @@ export function Profesionales() {
           )}
 
           <div className="grid gap-8 lg:grid-cols-2">
-            {profesionales.map((pro, i) => (
+            {profesionales.map((pro, i) => {
+              const dias = agendaComoItems(pro.agenda);
+              return (
               <ScrollReveal key={pro.nombre} direction={revealSide(i)} delay={i * 90}>
                 <article className="flex h-full flex-col gap-6 rounded-3xl border border-brand-200 bg-white p-6 shadow-lg sm:flex-row">
                   <div className="shrink-0 overflow-hidden rounded-2xl sm:w-40">
@@ -60,8 +62,12 @@ export function Profesionales() {
                     <p className="mt-1 text-sm font-bold uppercase tracking-wide text-brand-500">
                       {pro.especialidad}
                     </p>
-                    {pro.agenda && (
-                      <p className="mt-1 text-sm text-brand-500">{pro.agenda}</p>
+                    {dias.length > 0 && (
+                      <ul className="mt-2 list-disc space-y-0.5 pl-5 text-sm text-brand-500">
+                        {dias.map((dia) => (
+                          <li key={dia}>{dia}</li>
+                        ))}
+                      </ul>
                     )}
                     {pro.resena && (
                       <p className="mt-3 text-sm leading-relaxed text-brand-500/90">
@@ -71,7 +77,8 @@ export function Profesionales() {
                   </div>
                 </article>
               </ScrollReveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

@@ -1,7 +1,10 @@
 import {
-  estudioPlaceholder,
   fondoOjo,
   campoVisual,
+  topografiaCorneal,
+  oct,
+  retinografia,
+  controlIntegral,
 } from '@/assets/images';
 
 /**
@@ -19,7 +22,7 @@ export const especialidades: Especialidad[] = [
     nombre: 'OCT (Tomografía de Coherencia Óptica)',
     descripcion:
       'Estudio de alta resolución de la retina y el nervio óptico para el diagnóstico y seguimiento de patologías maculares y glaucoma.',
-    imagen: estudioPlaceholder,
+    imagen: oct,
   },
   {
     nombre: 'Campo Visual Computarizado',
@@ -31,7 +34,7 @@ export const especialidades: Especialidad[] = [
     nombre: 'Retinografía',
     descripcion:
       'Fotografía de fondo de ojo de alta definición para documentar y controlar la evolución de la retina.',
-    imagen: estudioPlaceholder,
+    imagen: retinografia,
   },
   {
     nombre: 'Fondo de ojo y toma de presión intraocular',
@@ -40,15 +43,15 @@ export const especialidades: Especialidad[] = [
     imagen: fondoOjo,
   },
   {
-    nombre: 'Paquimetría',
+    nombre: 'Topografía corneal y paquimetría',
     descripcion:
-      'Medición del espesor corneal, fundamental en la evaluación del glaucoma y la cirugía refractiva.',
-    imagen: estudioPlaceholder,
+      'Mapeo de la curvatura y forma de la córnea junto con la medición de su espesor. Útil en el diagnóstico de queratocono, el control del glaucoma y la evaluación previa a cirugía refractiva o de cataratas.',
+    imagen: topografiaCorneal,
   },
   {
     nombre: 'Control oftalmológico integral',
     descripcion:
       'Examen completo de agudeza visual, presión ocular y salud general del ojo para todas las edades.',
-    imagen: estudioPlaceholder,
+    imagen: controlIntegral,
   },
 ];

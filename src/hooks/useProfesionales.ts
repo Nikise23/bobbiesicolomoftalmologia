@@ -153,3 +153,13 @@ export function useProfesionales() {
 
   return { profesionales, loading, error };
 }
+
+/** Parte el resumen de agenda en ítems (separados por punto). */
+export function agendaComoItems(agenda?: string): string[] {
+  if (!agenda?.trim()) return [];
+  return agenda
+    .split(/\.\s+/)
+    .map((parte) => parte.replace(/\.$/, '').trim())
+    .filter(Boolean);
+}
+

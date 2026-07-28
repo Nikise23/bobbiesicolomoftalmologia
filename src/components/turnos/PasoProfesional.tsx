@@ -1,4 +1,4 @@
-import { useProfesionales } from '@/hooks/useProfesionales';
+import { useProfesionales, agendaComoItems } from '@/hooks/useProfesionales';
 import { onImageError } from '@/utils/imagen';
 import { whatsappUrl } from '@/config/site';
 
@@ -47,6 +47,7 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
         <div className="grid gap-3 sm:grid-cols-2">
           {profesionales.map((pro) => {
             const activo = pro.medicoApi === seleccionado;
+            const dias = agendaComoItems(pro.agenda);
             return (
               <button
                 key={pro.medicoApi}
@@ -54,7 +55,7 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
                 onClick={() => onSelect(pro.medicoApi)}
                 aria-pressed={activo}
                 className={[
-                  'flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors',
+                  'flex items-start gap-4 rounded-2xl border p-4 text-left transition-colors',
                   activo
                     ? 'border-accent-500 bg-accent-500/10'
                     : 'border-brand-200 bg-white hover:border-accent-400',
@@ -69,17 +70,19 @@ export function PasoProfesional({ seleccionado, onSelect }: PasoProfesionalProps
                   className={`h-16 w-14 shrink-0 rounded-lg object-cover ${pro.fotoClase ?? ''}`}
                   onError={onImageError}
                 />
-                <span>
+                <span className="min-w-0">
                   <span className="block font-display font-bold text-brand-700">
                     {pro.nombre}
                   </span>
                   <span className="block text-xs font-medium uppercase tracking-wide text-brand-400">
                     {pro.especialidad}
                   </span>
-                  {pro.agenda && (
-                    <span className="mt-1 block text-xs leading-snug text-brand-500">
-                      {pro.agenda}
-                    </span>
+                  {dias.length > 0 && (
+                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-xs leading-snug text-brand-500">
+                      {dias.map((dia) => (
+                        <li key={dia}>{dia}</li>
+                      ))}
+                    </ul>
                   )}
                 </span>
               </button>
