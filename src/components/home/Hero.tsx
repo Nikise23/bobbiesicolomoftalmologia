@@ -51,8 +51,8 @@ export function Hero() {
             {site.tagline}
           </h1>
           <p className="mt-5 max-w-xl text-lg text-brand-600">
-            {site.nombre}. Atención oftalmológica integral con tecnología de
-            diagnóstico de última generación y un trato cercano en cada consulta.
+            Atención oftalmológica a todas las edades con tecnología de
+            diagnóstico de última generación y trato cercano en cada consulta.
           </p>
           <p className="mt-3 text-sm text-brand-500">{modalidades}</p>
           <TurnosCta className="mt-8" whatsappMensaje={site.whatsappMensaje} />

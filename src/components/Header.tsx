@@ -61,8 +61,8 @@ export function Header() {
           <img
             src={logo}
             alt=""
-            width={512}
-            height={512}
+            width={852}
+            height={592}
             className="h-10 w-auto object-contain sm:h-11"
           />
           <span className="flex flex-col leading-tight">

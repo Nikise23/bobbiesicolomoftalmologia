@@ -4,6 +4,8 @@ import logoMedife from '@/assets/images/coberturas/medife.png';
 import logoOsde from '@/assets/images/coberturas/osde.png';
 import logoPremedic from '@/assets/images/coberturas/premedic.png';
 import logoVisitar from '@/assets/images/coberturas/visitar.png';
+import logoSwissMedical from '@/assets/images/coberturas/swiss-medical.jpg';
+import logoSancorSalud from '@/assets/images/coberturas/sancor-salud.webp';
 
 export interface CoberturaMedica {
   nombre: string;
@@ -55,6 +57,20 @@ export const coberturas: CoberturaMedica[] = [
     descripcion:
       'Gestión de salud con planes corporativos e individuales. Escribinos para verificar tu cobertura.',
     planes: ['Básico', 'Superior', 'Premium', 'Corporativo'],
+  },
+  {
+    nombre: 'Swiss Medical',
+    logo: logoSwissMedical,
+    descripcion:
+      'Medicina prepaga con amplia red de prestadores. Consultanos por prestaciones oftalmológicas y autorizaciones.',
+    planes: ['SMG20', 'SMG30', 'SMG40', 'SMG50', 'SMG60', 'SMG70'],
+  },
+  {
+    nombre: 'SanCor Salud',
+    logo: logoSancorSalud,
+    descripcion:
+      'Grupo de medicina prepaga con cobertura en todo el país. Te confirmamos tu plan y requisitos para atención oftalmológica.',
+    planes: ['1000', '2000', '3000', '4000', '5000'],
   },
 ];
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '@/assets/images/logo.webp';
+import logoLight from '@/assets/images/logo-light.webp';
 import { site, whatsappUrl, mapsUrl } from '@/config/site';
 import {
   PhoneIcon,
@@ -21,10 +21,10 @@ export function Footer() {
       {/* Banda CTA dorada */}
       <section className="bg-gradient-to-r from-accent-600 via-accent-500 to-accent-700">
         <div className="page-shell py-12 text-center sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-900/70">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-100/90">
             Estamos para ayudarte
           </p>
-          <h2 className="mt-3 font-display text-2xl font-bold text-brand-900 sm:text-3xl">
+          <h2 className="mt-3 font-display text-2xl font-bold text-brand-100 sm:text-3xl">
             {ctaTexto}
           </h2>
           {site.turnosOnline ? (
@@ -70,10 +70,10 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <img
-                src={logo}
+                src={logoLight}
                 alt=""
-                width={512}
-                height={512}
+                width={852}
+                height={592}
                 className="h-10 w-auto object-contain"
               />
               <span className="font-display text-lg font-bold text-accent-300">

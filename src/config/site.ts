@@ -20,7 +20,7 @@ export const site = {
   /** Nombre corto (header, footer, menciones breves). */
   nombreCorto: 'Colom · Bobbiesi',
   /** Título principal del hero. */
-  tagline: 'Colom-Bobbiesi',
+  tagline: 'Consultorios Colom-Bobbiesi',
   /** Ciudad y provincia. */
   ciudad: 'San Miguel',
   provincia: 'Buenos Aires',

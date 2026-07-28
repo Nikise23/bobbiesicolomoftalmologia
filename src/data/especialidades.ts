@@ -19,6 +19,18 @@ export interface Especialidad {
 
 export const especialidades: Especialidad[] = [
   {
+    nombre: 'Control oftalmológico integral',
+    descripcion:
+      'Examen visual completo y graduación de anteojos.',
+    imagen: controlIntegral,
+  },
+  {
+    nombre: 'Fondo de ojo y toma de presión intraocular',
+    descripcion:
+      'Examen del interior del ojo (retina, nervio óptico y vasos sanguíneos) junto con la medición de la presión intraocular, fundamental para el diagnóstico y seguimiento de glaucoma y otras patologías oculares.',
+    imagen: fondoOjo,
+  },
+  {
     nombre: 'OCT (Tomografía de Coherencia Óptica)',
     descripcion:
       'Estudio de alta resolución de la retina y el nervio óptico para el diagnóstico y seguimiento de patologías maculares y glaucoma.',
@@ -37,21 +49,9 @@ export const especialidades: Especialidad[] = [
     imagen: retinografia,
   },
   {
-    nombre: 'Fondo de ojo y toma de presión intraocular',
-    descripcion:
-      'Examen del interior del ojo (retina, nervio óptico y vasos) junto con la medición de la presión intraocular, fundamental para el diagnóstico y seguimiento de glaucoma y otras patologías oculares.',
-    imagen: fondoOjo,
-  },
-  {
     nombre: 'Topografía corneal y paquimetría',
     descripcion:
       'Mapeo de la curvatura y forma de la córnea junto con la medición de su espesor. Útil en el diagnóstico de queratocono, el control del glaucoma y la evaluación previa a cirugía refractiva o de cataratas.',
     imagen: topografiaCorneal,
-  },
-  {
-    nombre: 'Control oftalmológico integral',
-    descripcion:
-      'Examen completo de agudeza visual, presión ocular y salud general del ojo para todas las edades.',
-    imagen: controlIntegral,
   },
 ];

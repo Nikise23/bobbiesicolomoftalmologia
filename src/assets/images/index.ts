@@ -1,4 +1,5 @@
 import logo from './logo.webp';
+import logoLight from './logo-light.webp';
 import nosotros from './nosotros.png';
 import fachada from './fachada.webp';
 import fachadaFallback from './fachada.jpg';
@@ -11,7 +12,7 @@ import estudioPlaceholder from './estudio-placeholder.svg';
 import cirugiaPlaceholder from './cirugia-placeholder.svg';
 import fondoOjo from './estudios/fondo-ojo.jpg';
 import campoVisual from './estudios/campo-visual.webp';
-import topografiaCorneal from './estudios/topografia-corneal.png';
+import topografiaCorneal from './estudios/topografia-corneal.webp';
 import oct from './estudios/oct.jpg';
 import retinografia from './estudios/retinografia.webp';
 import controlIntegral from './estudios/control-integral.webp';
@@ -22,6 +23,7 @@ import cirugiaEstrabismo from './cirugias/cirugia-estrabismo.webp';
 
 export {
   logo,
+  logoLight,
   nosotros,
   fachada,
   fachadaFallback,
