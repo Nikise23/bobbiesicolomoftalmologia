@@ -16,7 +16,7 @@ export function Contacto() {
     <>
       <SeoJsonLd
         title={`Contacto y ubicación | ${site.nombreCorto}`}
-        description={`Contactá al consultorio oftalmológico ${site.nombreCorto} en ${site.ciudad}. Dirección, teléfono, WhatsApp y horarios.`}
+        description={`Contactá a los consultorios oftalmológicos ${site.nombreCorto} en ${site.ciudad}. Dirección, teléfono, WhatsApp y horarios.`}
         path="/contacto"
       />
 

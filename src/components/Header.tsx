@@ -57,7 +57,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-brand-200 bg-brand-100/95 backdrop-blur">
       <div className="page-shell flex h-16 items-center justify-between gap-4 lg:h-20">
-        <Link to="/" className="flex items-center gap-3" aria-label={`Inicio · ${site.nombre}`}>
+        <Link
+          to="/"
+          className="flex items-center gap-3"
+          aria-label="Inicio · Consultorios Oftalmológicos Colom · Bobbiesi"
+        >
           <img
             src={logo}
             alt=""
@@ -67,7 +71,7 @@ export function Header() {
           />
           <span className="flex flex-col leading-tight">
             <span className="text-xs font-medium uppercase tracking-widest text-brand-500">
-              Consultorio
+              Consultorios
             </span>
             <span className="font-display text-base font-bold text-accent-600 sm:text-lg">
               {site.nombreCorto}

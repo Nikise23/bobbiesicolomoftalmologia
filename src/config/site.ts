@@ -16,7 +16,7 @@ const toBool = (value: string | undefined, fallback = false): boolean => {
 
 export const site = {
   /** Nombre completo del consultorio (títulos, SEO, schema.org). */
-  nombre: 'Consultorio Oftalmológico Colom · Bobbiesi',
+  nombre: 'Consultorios Oftalmológicos Colom · Bobbiesi',
   /** Nombre corto (header, footer, menciones breves). */
   nombreCorto: 'Colom · Bobbiesi',
   /** Título principal del hero. */
@@ -32,7 +32,7 @@ export const site = {
   whatsapp: env.VITE_WHATSAPP ?? '5491127156477',
   whatsappMensaje:
     env.VITE_WHATSAPP_MSG ??
-    'Hola, quiero solicitar un turno en el consultorio oftalmológico Colom · Bobbiesi.',
+    'Hola, quiero solicitar un turno en los consultorios oftalmológicos Colom · Bobbiesi.',
   email: '',
 
   /** URLs. */
@@ -86,7 +86,7 @@ export const site = {
   /** SEO. */
   seo: {
     descripcion:
-      'Consultorio oftalmológico en San Miguel, Buenos Aires. Oftalmología general, oftalmopediatría y cirugía de cataratas con Colom · Bobbiesi. Solicitá tu turno.',
+      'Consultorios oftalmológicos en San Miguel, Buenos Aires. Oftalmología general, oftalmopediatría y cirugía de cataratas con Colom · Bobbiesi. Solicitá tu turno.',
     keywords:
       'oftalmología, oculista, oftalmólogo, San Miguel, oftalmopediatría, turnos, cataratas, cirugía de cataratas, OCT, campo visual, Colom, Bobbiesi',
     ogImage: '/og-image.jpg',
