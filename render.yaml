@@ -26,7 +26,18 @@ services:
         name: Cache-Control
         value: public, max-age=31536000, immutable
     routes:
-      # SPA: rutas como /turnos, /contacto → index.html (solo si el archivo no existe)
+      # SPA fallback: sin esto, /turnos /contacto /cirugia responden 404 a Google.
+      # Si el servicio se creó a mano, también hay que agregar la misma regla en
+      # Render → Redirects/Rewrites (Source: /*, Destination: /index.html, Rewrite).
+      - type: rewrite
+        source: /turnos
+        destination: /index.html
+      - type: rewrite
+        source: /contacto
+        destination: /index.html
+      - type: rewrite
+        source: /cirugia
+        destination: /index.html
       - type: rewrite
         source: /*
         destination: /index.html

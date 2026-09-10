@@ -1,8 +1,19 @@
-import { Navigate } from 'react-router-dom';
+import { site } from '@/config/site';
+import { SeoJsonLd } from '@/components/SeoJsonLd';
+import { Cirugia as CirugiaSection } from '@/components/home/Cirugia';
 
-/** Compatibilidad: /cirugia redirige a la sección del home. */
+/** Página dedicada de cirugía (indexable; el home también tiene la sección #cirugia). */
 export function Cirugia() {
-  return <Navigate to={{ pathname: '/', hash: 'cirugia' }} replace />;
+  return (
+    <>
+      <SeoJsonLd
+        title={`Cirugía oftalmológica | ${site.nombreCorto}`}
+        description={`Cirugías oculares en ${site.ciudad}: cataratas, estrabismo, párpados y más. Consultá en ${site.nombre}.`}
+        path="/cirugia"
+      />
+      <CirugiaSection />
+    </>
+  );
 }
 
 export default Cirugia;

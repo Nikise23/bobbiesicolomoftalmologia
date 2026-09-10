@@ -7,7 +7,6 @@ import {
   WhatsAppIcon,
   InstagramIcon,
   FacebookIcon,
-  ArrowRightIcon,
 } from '@/components/icons';
 
 export function Footer() {
@@ -33,7 +32,6 @@ export function Footer() {
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-8 py-3 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-brand-700"
             >
               Solicitar turno
-              <ArrowRightIcon className="h-4 w-4" />
             </Link>
           ) : (
             <a

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { site, whatsappUrl } from '@/config/site';
-import { WhatsAppIcon, InstagramIcon, ArrowRightIcon } from '@/components/icons';
+import { WhatsAppIcon, InstagramIcon } from '@/components/icons';
 
 interface TurnosCtaProps {
   /** Mensaje precargado de WhatsApp específico de la sección. */
@@ -57,7 +57,6 @@ export function TurnosCta({
     <div className={`flex flex-wrap items-center gap-3 ${className}`}>
       <Link to="/turnos" className="btn-primary">
         Solicitar turno
-        <ArrowRightIcon className="h-4 w-4" />
       </Link>
       {mostrarWhatsapp && (
         <>
