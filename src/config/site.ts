@@ -26,7 +26,9 @@ export const site = {
   provincia: 'Buenos Aires',
 
   /** Datos de contacto. */
-  direccion: env.VITE_CONSULTORIO_DIRECCION ?? 'Muñoz 909, San Miguel',
+  direccion:
+    env.VITE_CONSULTORIO_DIRECCION ??
+    'Urquiza 1944, B1663 San Miguel, Provincia de Buenos Aires',
   telefono: env.VITE_CONSULTORIO_TELEFONO ?? '+54 11 2715-6477',
   /** WhatsApp SIN el signo +, formato internacional (ej: 5493511234567). */
   whatsapp: env.VITE_WHATSAPP ?? '5491127156477',
@@ -111,7 +113,7 @@ export function whatsappUrl(mensaje?: string): string {
 /** URL de Google Maps a partir de la dirección (o mapsUrl si está seteada). */
 export function mapsUrl(): string {
   if (site.mapsUrl) return site.mapsUrl;
-  const q = encodeURIComponent(`${site.direccion}, ${site.ciudad}, ${site.provincia}`);
+  const q = encodeURIComponent(site.direccion);
   return `https://www.google.com/maps/search/?api=1&query=${q}`;
 }
 
@@ -119,7 +121,7 @@ export function mapsUrl(): string {
 export function googleReviewsUrl(): string {
   if (site.googleReviewsUrl) return site.googleReviewsUrl;
   const q = encodeURIComponent(
-    'Oftalmología Odontología Colom Bobbiesi Muñoz 909 San Miguel'
+    'Oftalmología Odontología Colom Bobbiesi Urquiza 1944 San Miguel'
   );
   return `https://www.google.com/maps/search/?api=1&query=${q}`;
 }

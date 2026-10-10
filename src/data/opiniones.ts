@@ -1,6 +1,6 @@
 /**
  * Opiniones de pacientes — fuente: Google Maps
- * Negocio: Oftalmología Odontología Colom Bobbiesi · Muñoz 909, San Miguel
+ * Negocio: Oftalmología Odontología Colom Bobbiesi · Urquiza 1944, San Miguel
  */
 
 export interface Opinion {

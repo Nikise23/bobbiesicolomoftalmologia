@@ -47,7 +47,7 @@ export function Contacto() {
                       rel="noopener noreferrer"
                       className="mt-1 block text-sm text-brand-600 hover:text-accent-600"
                     >
-                      {site.direccion} — {site.ciudad}, {site.provincia}
+                      {site.direccion}
                     </a>
                   </div>
                 </li>

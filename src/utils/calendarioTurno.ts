@@ -49,7 +49,7 @@ function descripcion(turno: TurnoCalendario): string {
 }
 
 function ubicacion(): string {
-  return `${site.direccion}, ${site.ciudad}, ${site.provincia}`;
+  return site.direccion;
 }
 
 export function generarIcs(turno: TurnoCalendario): string {

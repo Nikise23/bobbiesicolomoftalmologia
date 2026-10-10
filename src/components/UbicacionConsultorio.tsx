@@ -44,7 +44,7 @@ export function UbicacionConsultorio({ className = '' }: UbicacionProps) {
         <div className="flex flex-col items-center gap-3 border-t border-brand-200 bg-brand-50 px-6 py-6 text-center">
           <MapPinIcon className="h-8 w-8 text-accent-500" aria-hidden />
           <p className="text-sm text-brand-600">
-            Encontranos en {site.direccion}, {site.ciudad}.
+            Encontranos en {site.direccion}.
           </p>
           <a
             href={mapsUrl()}
@@ -60,9 +60,6 @@ export function UbicacionConsultorio({ className = '' }: UbicacionProps) {
       <div className="flex items-center justify-between gap-4 border-t border-brand-200 p-5">
         <div>
           <p className="font-display font-semibold text-brand-700">{site.direccion}</p>
-          <p className="text-sm text-brand-500">
-            {site.ciudad}, {site.provincia}
-          </p>
         </div>
         <a
           href={mapsUrl()}
