@@ -35,5 +35,13 @@
     "foto": "/profesionales/dr-julian.webp",
     "orden": 4,
     "visible": true
+  },
+  {
+    "medicoNombre": "Dra. Sofía Aliaga",
+    "medicoApi": "Sofia Aliaga",
+    "especialidad": "Oftalmología de adultos y Oftalmopediatría",
+    "foto": "/profesionales/dra-aliaga.webp",
+    "orden": 5,
+    "visible": true
   }
 ]

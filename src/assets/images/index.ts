@@ -8,6 +8,7 @@ import drColom from './profesionales/dr-colom.jpg';
 import draBobbiesi from './profesionales/dra-bobbiesi.webp';
 import draConema from './profesionales/dra-conema.webp';
 import drJulian from './profesionales/dr-julian.webp';
+import draAliaga from './profesionales/dra-aliaga.webp';
 import estudioPlaceholder from './estudio-placeholder.svg';
 import cirugiaPlaceholder from './cirugia-placeholder.svg';
 import fondoOjo from './estudios/fondo-ojo.jpg';
@@ -32,6 +33,7 @@ export {
   draBobbiesi,
   draConema,
   drJulian,
+  draAliaga,
   estudioPlaceholder,
   cirugiaPlaceholder,
   fondoOjo,
@@ -52,4 +54,5 @@ export const fotosProfesionales: Record<string, string> = {
   'Dra. Marianela Bobbiesi': draBobbiesi,
   'Dra. Martina Conema': draConema,
   'Dr. Juan Julián': drJulian,
+  'Dra. Sofía Aliaga': draAliaga,
 };
